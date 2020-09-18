@@ -4,4 +4,4 @@ configuration:                  # array of properties
   binaryLocation:              # path of the binary in Artifactory
     type: String
     validate:
-      isRegex:  ["^[a-z]+$",'i']    # Each element in array is validated with this
+      isRegex:  "*"   
