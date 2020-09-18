@@ -1,0 +1,5 @@
+description: package application into debian package
+ 
+configuration:                  # array of properties
+  binaryLocation:              # path of the binary in Artifactory
+    type: String
