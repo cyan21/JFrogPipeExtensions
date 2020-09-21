@@ -26,10 +26,16 @@ packageDebian() {
         echo "binary location : $blocation"
 
         echo 'builds.find({"name": "my-debian-app"}).include("number")'  > listBuild.aql
-        jfrog rt curl -XPOST api/search/aql -T listBuild.aql | jq '[."results"[]] | sort_by( ."build.number" | tonumber ) | last | ."build.number" | tonumber'
 
-        local debian_b_number=$(jfrog rt curl -XPOST api/search/aql -T listBuild.aql | jq '[."results"[]] | sort_by( ."build.number" | tonumber ) | last | ."build.number" | tonumber')
+        local list_build_number=$(jfrog rt curl -XPOST api/search/aql -T listBuild.aql | jq '."results"')
+        local debian_b_number=0
+
+        if [[ $list_build_number != "[]" ]]; then
         
+            debian_b_number=$(echo $list_build_number | jq '[."results"[]] | sort_by( ."build.number" | tonumber ) | last | ."build.number" | tonumber')
+#        local debian_b_number=$(jfrog rt curl -XPOST api/search/aql -T listBuild.aql | jq '[."results"[]] | sort_by( ."build.number" | tonumber ) | last | ."build.number" | tonumber')
+        fi
+                
         echo "after rt curl"
         echo "new build number = $debian_b_number"
 
