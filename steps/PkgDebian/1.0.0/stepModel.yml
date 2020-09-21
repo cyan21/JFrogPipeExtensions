@@ -1,7 +1,15 @@
 description: package application into debian package
  
 configuration:                  # array of properties
-  binaryLocation:              # path of the binary in Artifactory
+  binaryLocalLocation:              # path of the binary locally
     type: String
-#    validate:
-#      isRegex:  "*"   
+  binaryArtifactoryLocation:        # path of the binary in Artifactory including repo and binary name (can be **/<artifact_name>*)
+    type: String
+  buildName:
+    type: String
+    validate:
+      notNull:  true  
+  buildNumber:
+    type: String
+    validate:
+      notNull:  true  
