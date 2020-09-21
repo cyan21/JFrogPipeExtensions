@@ -24,14 +24,31 @@ packageDebian() {
         echo "build number : $bnumber"
         echo "binary location : $blocation"
 
-        jfrog rt dl $blocation --build="$bname/$bnumber" --flat=true --build-name=debian-app --build-number=1
+
+        echo """
+builds.find({"name": "debian-app"}).include("number").sort({"$desc" : ["number"]}).limit(1)
+""" > listBuild.aql
+
+
+        local debian_b_number=$(jfrog rt curl -XPOST api/search/aql -T listBuild.aql | jq '."results"[]."build.number" | tonumber')
+        
+        # "let" handles null/nill value and can increment them !
+        let "debian_b_number++"
+
+        echo "new build number = $debian_b_number"
+
+        jfrog rt dl $blocation --build="$bname/$bnumber" \
+            --flat=true \
+            --build-name=debian-app \
+            --build-number=$debian_b_number
+        
         ls -l 
 
         # generate debian package
-        version=0.0.2
+        version=0.0.3
         mv multi-module-application-1.0.0.jar multi-module-application-${version}.jar
 
-        rm -rf debian_gen
+        rm -rf debian_gen listBuild.aql
         mkdir -p debian_gen/myapp_${version}/{DEBIAN,var}
         mkdir -p debian_gen/myapp_${version}/var/myapp
 
@@ -54,7 +71,13 @@ Description: My Simple Debian package to deploy my awesome app
 
         # upload debian package
 #        jfrog rt curl -XPUT "ninja-debian-release/pool/myapp_${version}.deb;deb.distribution=stretch;deb.component=main;deb.architecture=x86-64" -T debian_gen/myapp_${version}.deb 
-        jfrog rt u debian_gen/myapp_${version}.deb "ninja-debian-release/pool/" --props="deb.distribution=stretch;deb.component=main;deb.architecture=x86-64" 
+        jfrog rt u debian_gen/myapp_${version}.deb "ninja-debian-release/pool/" \ 
+            --props="deb.distribution=stretch;deb.component=main;deb.architecture=x86-64" 
+            --build-name=debian-app \
+            --build-number=$debian_b_number
+
+        jfrog rt bp debian-app $debian_b_number
+
         echo "packaging done :D !!!"
 #    fi
 
