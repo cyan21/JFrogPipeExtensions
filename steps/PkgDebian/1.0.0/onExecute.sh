@@ -41,7 +41,7 @@ Maintainer: Yann Chaysinh
 Priority: optional
 Version: $version
 Description: My Simple Debian package to deploy my super app
-        """ >> debian_gen/myapp_${version}/DEBIAN/control
+        """ > debian_gen/myapp_${version}/DEBIAN/control
         
         EOL
 
