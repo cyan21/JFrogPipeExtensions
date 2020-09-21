@@ -22,7 +22,12 @@ packageDebian() {
 
         echo "build name : $bname"
         echo "build number : $bnumber"
-        echo "binary location : $binaryArtifactoryLocation"
+        echo "binary location : $blocation"
+
+        jfrog rt dl $blocation --build="$bname/$bnumber" --flat=true
+
+        ls -l 
+        
         echo "packaging done :D !!!"
 #    fi
 
