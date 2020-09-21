@@ -31,16 +31,16 @@ packageDebian() {
         local debian_b_number=0
 
         if [[ $list_build_number != "[]" ]]; then
-        
+            echo "list non empty"
             debian_b_number=$(echo $list_build_number | jq '[."results"[]] | sort_by( ."build.number" | tonumber ) | last | ."build.number" | tonumber')
 #        local debian_b_number=$(jfrog rt curl -XPOST api/search/aql -T listBuild.aql | jq '[."results"[]] | sort_by( ."build.number" | tonumber ) | last | ."build.number" | tonumber')
         fi
-                
+
         echo "after rt curl"
-        echo "new build number = $debian_b_number"
+        echo "build number = $debian_b_number"
 
         # "let" handles null/nill value and can increment them !
-        let "debian_b_number++"
+        let "debian_b_number+=1"
 
         echo "new build number = $debian_b_number"
 
