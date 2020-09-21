@@ -34,16 +34,16 @@ packageDebian() {
         mkdir -p debian_gen/myapp_${version}/var/myapp
         version=0.0.1
 
-        cat << 'EOL' >> debian_gen/myapp_${version}/DEBIAN/control
-        Package: app
-        Architecture: all
-        Maintainer: Yann Chaysinh
-        Priority: optional
-        Version: <VERSION>
-        Description: My Simple Debian package to deploy my super app
+        echo """
+Package: app
+Architecture: all
+Maintainer: Yann Chaysinh
+Priority: optional
+Version: $version
+Description: My Simple Debian package to deploy my super app
+        """ >> debian_gen/myapp_${version}/DEBIAN/control
+        
         EOL
-
-        sed -i "s/<VERSION>/${version}/" debian_gen/myapp_${version}/DEBIAN/control
 
         cp *.jar debian_gen/myapp_${version}/var/myapp/
 
