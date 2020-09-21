@@ -7,7 +7,7 @@ configuration:                  # array of properties
     type: String
   buildName:
     type: String
-    validate:
-      isRegEx:  "[A-Za-z0-9-]*"  
+    # validate:
+    #   isRegEx:  "[A-Za-z0-9-]*"  
   buildNumber:
     type: Int
