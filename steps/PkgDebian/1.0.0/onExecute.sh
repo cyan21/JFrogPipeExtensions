@@ -36,7 +36,7 @@ packageDebian() {
 
         if [[ $list_build_number != "[]" ]]; then
             echo "list non empty"
-            debian_b_number=$(echo $list_build_number | jq '[."results"[]] | sort_by( ."build.number" | tonumber ) | last | ."build.number" | tonumber')
+            debian_b_number=$(echo $list_build_number | jq 'sort_by( ."build.number" | tonumber ) | last | ."build.number" | tonumber')
 #        local debian_b_number=$(jfrog rt curl -XPOST api/search/aql -T listBuild.aql | jq '[."results"[]] | sort_by( ."build.number" | tonumber ) | last | ."build.number" | tonumber')
         fi
 
