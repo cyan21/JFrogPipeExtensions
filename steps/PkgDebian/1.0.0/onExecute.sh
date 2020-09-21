@@ -30,7 +30,7 @@ packageDebian() {
         # generate debian package
         version=0.0.2
         mv multi-module-application-1.0.0.jar multi-module-application-${version}.jar
-
+        
         rm -rf debian_gen
         mkdir -p debian_gen/myapp_${version}/{DEBIAN,var}
         mkdir -p debian_gen/myapp_${version}/var/myapp
