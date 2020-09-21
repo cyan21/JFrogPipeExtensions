@@ -29,18 +29,12 @@ packageDebian() {
         ls -l 
 
         # generate debian package
+        version=0.0.1
         rm -rf debian_gen
         mkdir -p debian_gen/myapp_${version}/{DEBIAN,var}
         mkdir -p debian_gen/myapp_${version}/var/myapp
-        version=0.0.1
-        mkdir truc
-        echo "after creation"
-        ls -l 
 
-        ls -l debian_gen/myapp_${version}/
-        touch debian_gen/myapp_${version}/{DEBIAN/control
-        ls -l debian_gen/myapp_${version}/
-        
+        ls -l debian_gen/myapp_${version}/        
 
         echo """
 Package: app
