@@ -24,7 +24,7 @@ packageDebian() {
         echo "build number : $bnumber"
         echo "binary location : $blocation"
 
-        echo jfrog rt dl $blocation --build="$bname/$bnumber" --flat=true
+        jfrog rt dl $blocation --build="$bname/$bnumber" --flat=true
 
         ls -l 
 
