@@ -18,7 +18,11 @@ packageDebian() {
         # build name and number only work when both are specified 
         local bname=$(find_step_configuration_value "buildName")
         local bnumber=$(find_step_configuration_value "buildNumber") 
+        local blocation=$(find_step_configuration_value "binaryArtifactoryLocation") 
 
+        echo "build name : $bname"
+        echo "build number : $bnumber"
+        echo "binary location : $binaryArtifactoryLocation"
         echo "packaging done :D !!!"
     fi
 
