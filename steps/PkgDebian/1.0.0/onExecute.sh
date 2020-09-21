@@ -34,6 +34,11 @@ packageDebian() {
         mkdir -p debian_gen/myapp_${version}/var/myapp
         version=0.0.1
 
+        ls -l debian_gen/myapp_${version}/
+        touch debian_gen/myapp_${version}/{DEBIAN/control
+        ls -l debian_gen/myapp_${version}/
+        
+
         echo """
 Package: app
 Architecture: all
@@ -42,8 +47,6 @@ Priority: optional
 Version: $version
 Description: My Simple Debian package to deploy my super app
         """ > debian_gen/myapp_${version}/DEBIAN/control
-        
-        EOL
 
         cp *.jar debian_gen/myapp_${version}/var/myapp/
 
