@@ -24,12 +24,12 @@ packageDebian() {
         echo "build number : $bnumber"
         echo "binary location : $blocation"
 
-        jfrog rt dl $blocation --build="$bname/$bnumber" --flat=true
+        jfrog rt dl $blocation --build="$bname/$bnumber" --flat=true --build-name=debian-app --build-number=
 
         ls -l 
 
         # generate debian package
-        version=0.0.1
+        version=0.0.2
         rm -rf debian_gen
         mkdir -p debian_gen/myapp_${version}/{DEBIAN,var}
         mkdir -p debian_gen/myapp_${version}/var/myapp
@@ -42,7 +42,7 @@ Architecture: all
 Maintainer: Yann Chaysinh
 Priority: optional
 Version: $version
-Description: My Simple Debian package to deploy my super app
+Description: My Simple Debian package to deploy my awesome app 
 """ > debian_gen/myapp_${version}/DEBIAN/control
 
         cp *.jar debian_gen/myapp_${version}/var/myapp/
@@ -52,8 +52,8 @@ Description: My Simple Debian package to deploy my super app
         dpkg -c debian_gen/myapp_${version}.deb
 
         # upload debian package
-        jfrog rt curl -XPUT "ninja-debian-release/pool/myapp_${version}.deb;deb.distribution=stretch;deb.component=main;deb.architecture=x86-64" -T debian_gen/myapp_${version}.deb 
-
+#        jfrog rt curl -XPUT "ninja-debian-release/pool/myapp_${version}.deb;deb.distribution=stretch;deb.component=main;deb.architecture=x86-64" -T debian_gen/myapp_${version}.deb 
+        jfrog rt u "ninja-debian-release/pool/myapp_${version}.deb" --props="deb.distribution=stretch;deb.component=main;deb.architecture=x86-64" 
         echo "packaging done :D !!!"
 #    fi
 
