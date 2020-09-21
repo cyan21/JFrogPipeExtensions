@@ -25,7 +25,7 @@ packageDebian() {
         jq --version
         echo "binary location : $blocation"
 
-        echo 'builds.find({"name": "backapp_mvn"}).include("number")'  > listBuild.aql
+        echo 'builds.find({"name": "my-debian-app"}).include("number")'  > listBuild.aql
         jfrog rt curl -XPOST api/search/aql -T listBuild.aql | jq '[."results"[]] | sort_by( ."build.number" | tonumber ) | last | ."build.number" | tonumber'
 
         local debian_b_number=$(jfrog rt curl -XPOST api/search/aql -T listBuild.aql | jq '[."results"[]] | sort_by( ."build.number" | tonumber ) | last | ."build.number" | tonumber')
@@ -46,7 +46,7 @@ packageDebian() {
         ls -l 
 
         # generate debian package
-        version=0.0.3
+        version=0.0.4
         mv multi-module-application-1.0.0.jar multi-module-application-${version}.jar
 
         rm -rf debian_gen listBuild.aql
