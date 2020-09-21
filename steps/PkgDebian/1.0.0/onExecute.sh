@@ -25,11 +25,12 @@ packageDebian() {
         echo "binary location : $blocation"
 
         jfrog rt dl $blocation --build="$bname/$bnumber" --flat=true --build-name=debian-app --build-number=1
-
         ls -l 
 
         # generate debian package
         version=0.0.2
+        mv multi-module-application-1.0.0.jar multi-module-application-${version}.jar
+
         rm -rf debian_gen
         mkdir -p debian_gen/myapp_${version}/{DEBIAN,var}
         mkdir -p debian_gen/myapp_${version}/var/myapp
