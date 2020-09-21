@@ -1,7 +1,7 @@
 
 packageDebian() {
     local success=true
-    local binary=$(find_step_configuration_value "binaryLocalLocation")
+#    local binary=$(find_step_configuration_value "binaryLocalLocation")
 
     jfrog rt ping
 
@@ -11,7 +11,7 @@ packageDebian() {
     fi 
   
     # priority to  binaryLocalLocation
-    if [ $(ls $binary 2> /dev/null ) -eq 1 ]; then 
+#    if [ $(ls $binary 2> /dev/null ) -eq 1 ]; then 
     
         # couldn't be found --> look into Artifactory
         # get binary based on build props
@@ -24,7 +24,7 @@ packageDebian() {
         echo "build number : $bnumber"
         echo "binary location : $binaryArtifactoryLocation"
         echo "packaging done :D !!!"
-    fi
+#    fi
 
     $success
 }
