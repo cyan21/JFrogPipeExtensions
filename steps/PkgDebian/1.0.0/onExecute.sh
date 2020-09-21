@@ -2,6 +2,11 @@
 packageDebian() {
     local success=true
 #    local binary=$(find_step_configuration_value "binaryLocalLocation")
+    local debian_b_name="my-new-debian-app"
+    local debian_b_number=0
+
+    local target_repo="ninja-debian-release"
+    local version=0.0.5
 
     jfrog rt ping
 
@@ -28,7 +33,6 @@ packageDebian() {
         echo 'builds.find({"name": "my-debian-app"}).include("number")'  > listBuild.aql
 
         local list_build_number=$(jfrog rt curl -XPOST api/search/aql -T listBuild.aql | jq '."results"')
-        local debian_b_number=0
 
         if [[ $list_build_number != "[]" ]]; then
             echo "list non empty"
@@ -36,7 +40,6 @@ packageDebian() {
 #        local debian_b_number=$(jfrog rt curl -XPOST api/search/aql -T listBuild.aql | jq '[."results"[]] | sort_by( ."build.number" | tonumber ) | last | ."build.number" | tonumber')
         fi
 
-        echo "after rt curl"
         echo "build number = $debian_b_number"
 
         # "let" handles null/nill value and can increment them !
@@ -46,13 +49,12 @@ packageDebian() {
 
         jfrog rt dl $blocation --build="$bname/$bnumber" \
             --flat=true \
-            --build-name=debian-app \
+            --build-name=$debian_b_name \
             --build-number=$debian_b_number
         
         ls -l 
 
         # generate debian package
-        version=0.0.4
         mv multi-module-application-1.0.0.jar multi-module-application-${version}.jar
 
         rm -rf debian_gen listBuild.aql
@@ -81,11 +83,11 @@ Description: My Simple Debian package to deploy my awesome app
         echo "jfrog rt u --props=\"deb.distribution=stretch;deb.component=main;deb.architecture=x86-64\" --build-name=debian-app --build-number=$debian_b_number debian_gen/myapp_${version}.deb \"ninja-debian-release/pool/\""
         jfrog rt u  \
             --props="deb.distribution=stretch;deb.component=main;deb.architecture=x86-64" \
-            --build-name=debian-app \
+            --build-name=$debian_b_name \
             --build-number=$debian_b_number \
-        debian_gen/myapp_${version}.deb "ninja-debian-release/pool/"
+        debian_gen/myapp_${version}.deb "$target_repo/pool/"
 
-        jfrog rt bp debian-app $debian_b_number
+        jfrog rt bp $debian_b_name $debian_b_number
 
         echo "packaging done :D !!!"
 #    fi
