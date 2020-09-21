@@ -30,7 +30,7 @@ packageDebian() {
         jq --version
         echo "binary location : $blocation"
 
-        echo 'builds.find({"name": "my-debian-app"}).include("number")'  > listBuild.aql
+        echo "builds.find({\"name\": \"$debian_b_name\"}).include(\"number\")"  > listBuild.aql
 
         local list_build_number=$(jfrog rt curl -XPOST api/search/aql -T listBuild.aql | jq '."results"')
 
