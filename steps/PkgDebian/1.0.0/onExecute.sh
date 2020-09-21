@@ -25,8 +25,8 @@ packageDebian() {
         jq --version
         echo "binary location : $blocation"
 
-        echo 'builds.find({"name": "backapp_mvn"}).include("number").sort({"$desc" : ["number"]}).limit(1)'  > listBuild.aql
-        jfrog rt curl -XPOST api/search/aql -T listBuild.aql | jq '."results"[]."build.number" | tonumber'
+        echo 'builds.find({"name": "backapp_mvn"}).include("number")'  > listBuild.aql
+        jfrog rt curl -XPOST api/search/aql -T listBuild.aql | jq '[."results"[]] | sort_by( ."build.number" | tonumber ) | last | ."build.number" | tonumber'
 
         local debian_b_number=$(jfrog rt curl -XPOST api/search/aql -T listBuild.aql | jq '."results"[]."build.number" | tonumber')
         
@@ -71,10 +71,11 @@ Description: My Simple Debian package to deploy my awesome app
 
         # upload debian package
 #        jfrog rt curl -XPUT "ninja-debian-release/pool/myapp_${version}.deb;deb.distribution=stretch;deb.component=main;deb.architecture=x86-64" -T debian_gen/myapp_${version}.deb 
-        jfrog rt u debian_gen/myapp_${version}.deb "ninja-debian-release/pool/" \ 
+        jfrog rt u  \
             --props="deb.distribution=stretch;deb.component=main;deb.architecture=x86-64" 
             --build-name=debian-app \
-            --build-number=$debian_b_number
+            --build-number=$debian_b_number \
+        debian_gen/myapp_${version}.deb "ninja-debian-release/pool/"
 
         jfrog rt bp debian-app $debian_b_number
 
