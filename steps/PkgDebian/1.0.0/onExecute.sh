@@ -53,7 +53,7 @@ Description: My Simple Debian package to deploy my awesome app
 
         # upload debian package
 #        jfrog rt curl -XPUT "ninja-debian-release/pool/myapp_${version}.deb;deb.distribution=stretch;deb.component=main;deb.architecture=x86-64" -T debian_gen/myapp_${version}.deb 
-        jfrog rt u "ninja-debian-release/pool/myapp_${version}.deb" --props="deb.distribution=stretch;deb.component=main;deb.architecture=x86-64" 
+        jfrog rt u myapp_${version}.deb "ninja-debian-release/pool/" --props="deb.distribution=stretch;deb.component=main;deb.architecture=x86-64" 
         echo "packaging done :D !!!"
 #    fi
 
