@@ -28,9 +28,10 @@ packageDebian() {
         echo 'builds.find({"name": "backapp_mvn"}).include("number")'  > listBuild.aql
         jfrog rt curl -XPOST api/search/aql -T listBuild.aql | jq '[."results"[]] | sort_by( ."build.number" | tonumber ) | last | ."build.number" | tonumber'
 
-        local debian_b_number=$(jfrog rt curl -XPOST api/search/aql -T listBuild.aql | jq '."results"[]."build.number" | tonumber')
+        local debian_b_number=$(jfrog rt curl -XPOST api/search/aql -T listBuild.aql | jq '[."results"[]] | sort_by( ."build.number" | tonumber ) | last | ."build.number" | tonumber')
         
         echo "after rt curl"
+        echo "new build number = $debian_b_number"
 
         # "let" handles null/nill value and can increment them !
         let "debian_b_number++"
