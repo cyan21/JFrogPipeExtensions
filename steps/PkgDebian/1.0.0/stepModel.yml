@@ -8,8 +8,6 @@ configuration:                  # array of properties
   buildName:
     type: String
     validate:
-      notNull:  true  
+      isRegEx:  "[A-Za-z0-9-]*"  
   buildNumber:
-    type: String
-    validate:
-      notNull:  true  
+    type: Int
