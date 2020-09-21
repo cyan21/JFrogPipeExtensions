@@ -24,10 +24,36 @@ packageDebian() {
         echo "build number : $bnumber"
         echo "binary location : $blocation"
 
-        jfrog rt dl $blocation --build="$bname/$bnumber" --flat=true
+        echo jfrog rt dl $blocation --build="$bname/$bnumber" --flat=true
 
         ls -l 
-        
+
+        # generate debian package
+        rm -rf debian_gen
+        mkdir -p debian_gen/myapp_${version}/{DEBIAN,var}
+        mkdir -p debian_gen/myapp_${version}/var/myapp
+        version=0.0.1
+
+        cat << 'EOL' >> debian_gen/myapp_${version}/DEBIAN/control
+        Package: app
+        Architecture: all
+        Maintainer: Yann Chaysinh
+        Priority: optional
+        Version: <VERSION>
+        Description: My Simple Debian package to deploy my super app
+        EOL
+
+        sed -i "s/<VERSION>/${version}/" debian_gen/myapp_${version}/DEBIAN/control
+
+        cp *.jar debian_gen/myapp_${version}/var/myapp/
+
+        dpkg-deb --build debian_gen/myapp_${version}
+
+        dpkg -c debian_gen/myapp_${version}.deb
+
+        # upload debian package
+        jfrog rt curl -XPUT "ninja-debian-release/pool/myapp_${version}.deb;deb.distribution=stretch;deb.component=main;deb.architecture=x86-64" -T debian_gen/myapp_${version}.deb 
+
         echo "packaging done :D !!!"
 #    fi
 
