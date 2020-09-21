@@ -25,13 +25,13 @@ packageDebian() {
         jq --version
         echo "binary location : $blocation"
 
-        echo 'builds.find({"name": "debian-app"}).include("number").sort({"$desc" : ["number"]}).limit(1)'  > listBuild.aql
+        echo 'builds.find({"name": "backapp_mvn"}).include("number").sort({"$desc" : ["number"]}).limit(1)'  > listBuild.aql
         jfrog rt curl -XPOST api/search/aql -T listBuild.aql | jq '."results"[]."build.number" | tonumber'
 
         local debian_b_number=$(jfrog rt curl -XPOST api/search/aql -T listBuild.aql | jq '."results"[]."build.number" | tonumber')
         
         echo "after rt curl"
-        
+
         # "let" handles null/nill value and can increment them !
         let "debian_b_number++"
 
