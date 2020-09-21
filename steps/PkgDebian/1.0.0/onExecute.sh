@@ -72,8 +72,9 @@ Description: My Simple Debian package to deploy my awesome app
 
         # upload debian package
 #        jfrog rt curl -XPUT "ninja-debian-release/pool/myapp_${version}.deb;deb.distribution=stretch;deb.component=main;deb.architecture=x86-64" -T debian_gen/myapp_${version}.deb 
+        echo "jfrog rt u --props=\"deb.distribution=stretch;deb.component=main;deb.architecture=x86-64\" --build-name=debian-app --build-number=$debian_b_number debian_gen/myapp_${version}.deb \"ninja-debian-release/pool/\""
         jfrog rt u  \
-            --props="deb.distribution=stretch;deb.component=main;deb.architecture=x86-64" \ 
+            --props="deb.distribution=stretch;deb.component=main;deb.architecture=x86-64" \
             --build-name=debian-app \
             --build-number=$debian_b_number \
         debian_gen/myapp_${version}.deb "ninja-debian-release/pool/"
