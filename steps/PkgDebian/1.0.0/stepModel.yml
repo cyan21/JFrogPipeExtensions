@@ -1,13 +1,19 @@
 description: package application into debian package
  
-configuration:                  # array of properties
-  binaryLocalLocation:              # path of the binary locally
+configuration:
+  binaryLocation:   # path of the binary in Artifactory including repo and binary name (can be **/<artifact_name>*)
     type: String
-  binaryArtifactoryLocation:        # path of the binary in Artifactory including repo and binary name (can be **/<artifact_name>*)
-    type: String
-  buildName:
+  buildName:        # select binary based on build props
     type: String
     # validate:
     #   isRegEx:  "[A-Za-z0-9-]*"  
-  buildNumber:
+  buildNumber:      # select binary based on build props
     type: Int
+  appExtension:    # files to be packaged in the debian build info
+    type: String
+  debianBuildName:  # name of the debian Build Info to be published
+    type: String
+  targetDebianRepo: # debian repo to publish to
+    type: String
+
+  
