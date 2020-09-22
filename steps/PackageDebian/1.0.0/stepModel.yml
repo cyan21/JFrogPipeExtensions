@@ -11,6 +11,8 @@ configuration:
     type: Int
   appExtension:    # files to be packaged in the debian build info
     type: String
+  debianPkgName:  # name of the future debian pkg
+    type: String
   debianBuildName:  # name of the debian Build Info to be published
     type: String
   targetDebianRepo: # debian repo to publish to
