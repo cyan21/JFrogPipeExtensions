@@ -62,7 +62,7 @@ Version: $version
 Description: My Simple Debian package to deploy my awesome app 
 """ > debian_gen/myapp_${version}/DEBIAN/control
 
-    cp "*.$extension" debian_gen/myapp_${version}/var/myapp/
+    cp "*.$app_extension" debian_gen/myapp_${version}/var/myapp/
 
     dpkg-deb --build debian_gen/myapp_${version}
 
