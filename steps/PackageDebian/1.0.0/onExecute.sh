@@ -52,8 +52,8 @@ packageDebian() {
 
     # generate debian package
     rm -rf debian_gen listBuild.aql
-    mkdir -p debian_gen/$(debian_pkg_name)-${version}/{DEBIAN,var}
-    mkdir -p debian_gen/$(debian_pkg_name)-${version}/var/myapp
+    mkdir -p debian_gen/${debian_pkg_name}-${version}/{DEBIAN,var}
+    mkdir -p debian_gen/${debian_pkg_name}-${version}/var/myapp
 
     echo """
 Package: app
@@ -62,24 +62,24 @@ Maintainer: Yann Chaysinh
 Priority: optional
 Version: $version
 Description: My Simple Debian package to deploy my awesome app 
-""" > debian_gen/$(debian_pkg_name)-${version}/DEBIAN/control
+""" > debian_gen/${debian_pkg_name}-${version}/DEBIAN/control
 
     ls -l 
 
-    cp *.$app_extension debian_gen/$(debian_pkg_name)-${version}/var/myapp/
+    cp *.$app_extension debian_gen/${debian_pkg_name}-${version}/var/myapp/
 
-    dpkg-deb --build debian_gen/$(debian_pkg_name)-${version}
+    dpkg-deb --build debian_gen/${debian_pkg_name}-${version}
 
-    dpkg -c debian_gen/$(debian_pkg_name)-${version}.deb
+    dpkg -c debian_gen/${debian_pkg_name}-${version}.deb
 
     # upload debian package
-#        jfrog rt curl -XPUT "ninja-debian-release/pool/$(debian_pkg_name)-${version}.deb;deb.distribution=stretch;deb.component=main;deb.architecture=x86-64" -T debian_gen/$(debian_pkg_name)-${version}.deb 
-    echo "jfrog rt u --props=\"deb.distribution=stretch;deb.component=main;deb.architecture=x86-64\" --build-name=debian-app --build-number=$debian_b_number debian_gen/$(debian_pkg_name)-${version}.deb \"ninja-debian-release/pool/\""
+#        jfrog rt curl -XPUT "ninja-debian-release/pool/${debian_pkg_name}-${version}.deb;deb.distribution=stretch;deb.component=main;deb.architecture=x86-64" -T debian_gen/${debian_pkg_name}-${version}.deb 
+    echo "jfrog rt u --props=\"deb.distribution=stretch;deb.component=main;deb.architecture=x86-64\" --build-name=debian-app --build-number=$debian_b_number debian_gen/${debian_pkg_name}-${version}.deb \"ninja-debian-release/pool/\""
     jfrog rt u  \
         --props="deb.distribution=stretch;deb.component=main;deb.architecture=x86-64" \
         --build-name=$debian_b_name \
         --build-number=$debian_b_number \
-    debian_gen/$(debian_pkg_name)-${version}.deb "$target_repo/pool/"
+    debian_gen/${debian_pkg_name}-${version}.deb "$target_repo/pool/"
 
     jfrog rt bp $debian_b_name $debian_b_number
 
