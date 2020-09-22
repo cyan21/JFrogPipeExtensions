@@ -19,7 +19,7 @@ packageDebian() {
     # build name and number only work when both are specified 
     local bname=$(find_step_configuration_value "buildName")
     local bnumber=$(find_step_configuration_value "buildNumber") 
-    local blocation=$(find_step_configuration_value "binaryArtifactoryLocation") 
+    local blocation=$(find_step_configuration_value "binaryLocation") 
 
     echo "build name : $bname"
     echo "build number : $bnumber"
@@ -62,7 +62,9 @@ Version: $version
 Description: My Simple Debian package to deploy my awesome app 
 """ > debian_gen/myapp_${version}/DEBIAN/control
 
-    cp "*.$app_extension" debian_gen/myapp_${version}/var/myapp/
+    ls -l 
+    
+    cp *.$app_extension debian_gen/myapp_${version}/var/myapp/
 
     dpkg-deb --build debian_gen/myapp_${version}
 
