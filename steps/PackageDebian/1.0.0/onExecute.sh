@@ -6,7 +6,6 @@ packageDebian() {
     local debian_b_name=$(find_step_configuration_value "debianBuildName")
     local app_extension=$(find_step_configuration_value "appExtension")
     local target_repo=$(find_step_configuration_value "targetDebianRepo")
-#    local version=0.0.5
 
     jfrog rt ping
 
@@ -46,9 +45,10 @@ packageDebian() {
         --build-name=$debian_b_name \
         --build-number=$debian_b_number
     
-    # generate debian package
-    # mv multi-module-application-1.0.0.jar multi-module-application-${version}.jar
+    # extract version (X.Y.Z) from downloaded binary
+    local version=$(ls *.$app_extension | sed "s/[a-zA-Z-]*\([0-9]*.[0-9]*.[0-9]*\).*/\1/")
 
+    # generate debian package
     rm -rf debian_gen listBuild.aql
     mkdir -p debian_gen/myapp_${version}/{DEBIAN,var}
     mkdir -p debian_gen/myapp_${version}/var/myapp
@@ -63,7 +63,7 @@ Description: My Simple Debian package to deploy my awesome app
 """ > debian_gen/myapp_${version}/DEBIAN/control
 
     ls -l 
-    
+
     cp *.$app_extension debian_gen/myapp_${version}/var/myapp/
 
     dpkg-deb --build debian_gen/myapp_${version}
