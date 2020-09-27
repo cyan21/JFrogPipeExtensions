@@ -8,7 +8,7 @@ configuration:
     # validate:
     #   isRegEx:  "[A-Za-z0-9-]*"  
   buildNumber:      # select binary based on build props
-    type: Int
+    type: String
   appExtension:    # files to be packaged in the debian build info
     type: String
   debianPkgName:  # name of the future debian pkg
