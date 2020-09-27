@@ -17,5 +17,7 @@ configuration:
     type: String
   targetDebianRepo: # debian repo to publish to
     type: String
+  propsToSet:    # properties to set on the debian package (key1=val1;key2=val2)
+    type: String
 
   

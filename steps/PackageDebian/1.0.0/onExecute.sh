@@ -21,6 +21,7 @@ packageDebian() {
     local bname=$(find_step_configuration_value "buildName")
     local bnumber=$(find_step_configuration_value "buildNumber") 
     local blocation=$(find_step_configuration_value "binaryLocation") 
+    local newprops=$(find_step_configuration_value "propsToSet")
 
     echo "build name : $bname"
     echo "build number : $bnumber"
@@ -76,7 +77,7 @@ Description: My Simple Debian package to deploy my awesome app
 #        jfrog rt curl -XPUT "ninja-debian-release/pool/${debian_pkg_name}-${version}.deb;deb.distribution=stretch;deb.component=main;deb.architecture=x86-64" -T debian_gen/${debian_pkg_name}-${version}.deb 
     echo "jfrog rt u --props=\"deb.distribution=stretch;deb.component=main;deb.architecture=x86-64\" --build-name=debian-app --build-number=$debian_b_number debian_gen/${debian_pkg_name}-${version}.deb \"ninja-debian-release/pool/\""
     jfrog rt u  \
-        --props="deb.distribution=stretch;deb.component=main;deb.architecture=x86-64" \
+        --props="deb.distribution=stretch;deb.component=main;deb.architecture=x86-64;${newprops}" \
         --build-name=$debian_b_name \
         --build-number=$debian_b_number \
     debian_gen/${debian_pkg_name}-${version}.deb "$target_repo/pool/"
