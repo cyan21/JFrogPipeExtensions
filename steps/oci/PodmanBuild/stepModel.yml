@@ -1,0 +1,21 @@
+description: build OCI image with Podman
+ 
+configuration:
+  dockerFileName:
+    type: String
+  dockerFileLocation:
+    type: String
+  ociImageName:   #should contain Artifactory DNS (only support subdomain for now)
+    type: String
+  ociImageTag:
+    type: String
+  pushImage:
+    type: Boolean
+  artifactoryTargetRepoName:
+    type: String
+  buildName:
+    type: String
+  buildNumber:
+    type: String
+
+  
