@@ -16,9 +16,9 @@ podmanBuild() {
     res_path=$(find_resource_variable $res_name path)
     echo "Git resource path: $res_path"
 
-    echo "Dockerfile location : $dockerfile_location"
+    echo "Dockerfile name : $dockerfile_name"
     echo "Image name: $oci_img_name"
-    echo "Image name: $oci_img_tag"
+    echo "Image tag: $oci_img_tag"
     echo "Build name: $build_name"
 
     # install podman
