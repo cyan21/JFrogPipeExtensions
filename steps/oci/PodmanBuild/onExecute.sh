@@ -11,12 +11,16 @@ podmanBuild() {
     local build_number=$(find_step_configuration_value "buildNumber")
      
     local res_name=$(get_resource_name --type GitRepo --operation IN)
-    echo $(find_resource_variable $res_name path)
+    echo "Git resource: $res_name"
 
-    echo $dockerfile_location
-    echo $oci_img_name
-    echo $build_name
-    
+    res_path=$(find_resource_variable $res_name path)
+    echo "Git resource path: $res_path"
+
+    echo "Dockerfile location : $dockerfile_location"
+    echo "Image name: $oci_img_name"
+    echo "Image name: $oci_img_tag"
+    echo "Build name: $build_name"
+
     # install podman
     if ! which podman ; then 
         sudo echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x${operating_system}/ /" |  sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list 
@@ -27,7 +31,7 @@ podmanBuild() {
     fi
     podman info
     
-    # install latest JFrog CLI
+    # install latest J  Frog CLI
     jfrog --version
     cli_path=$(dirname "$(which jfrog)") 
     curl -fL https://getcli.jfrog.io | sh &&  mv ./jfrog "$cli_path/" && ls -l "$cli_path/jfrog"  
