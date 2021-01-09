@@ -9,7 +9,10 @@ podmanBuild() {
     local target_repo=$(find_step_configuration_value "artifactoryTargetRepoName")
     local build_name=$(find_step_configuration_value "buildName")
     local build_number=$(find_step_configuration_value "buildNumber")
-    
+     
+    local res_name=$(get_resource_name --type GitRepo --operation IN)
+    echo $(find_resource_variable $res_name path)
+
     # install podman
     if ! which podman ; then 
         sudo echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x${operating_system}/ /" |  sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list 
@@ -35,6 +38,8 @@ podmanBuild() {
     fi  
  
     cat /etc/containers/registries.conf
+
+
 
     # run podman build
     podman build -t $oci_img_name:$oci_img_tag -f $dockerfile_name $dockerfile_location 
