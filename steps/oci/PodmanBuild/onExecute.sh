@@ -31,11 +31,6 @@ podmanBuild() {
         dockerfile_fullpath="dependencyState/resources/$git_res_name"
     fi
 
-    # ls -l dependencyState/resources/$git_res_name
-    # ls -l  dependencyState/resources/$git_res_name/$dockerfile_location
-
-    ls -l $dockerfile_fullpath
-
     if [ ! -f $dockerfile_fullpath/$dockerfile_name ]; then 
         echo "[ERROR] Dockerfile not found"
         exit 1
@@ -56,13 +51,13 @@ podmanBuild() {
 # root      5445  5431  0 19:56 ?        00:00:00 /bin/sh /usr/lib/apt/apt.systemd.daily lock_is_held install
 
         while [ $lock -ne 1 ]; do
-#            echo "[iteration $cnt] waiting for $wait seconds to check the lock ... "
+            echo "[iteration $cnt] waiting for $wait seconds to check the lock ... "
             sleep $wait
             lock=`sudo ps -ef | grep -i apt | grep -c "lock_is_held"`
-#            echo "lock: $lock"
+            echo "lock: $lock"
             let "cnt+=1"
             if [ $cnt -gt 4 ]; then 
-#                echo "[ERROR] waiting for too long, failing the step "
+                echo "[ERROR] waiting for too long, failing the step "
                 exit 1
             fi
         done
@@ -71,31 +66,29 @@ podmanBuild() {
     fi
     podman info | grep " Version"
     
-    # install latest J  Frog CLI
+    # install latest JFrog CLI
     jfrog --version
     cli_path=$(dirname "$(which jfrog)") 
     curl -fLs https://getcli.jfrog.io | sh &&  mv ./jfrog "$cli_path/" && ls -l "$cli_path/jfrog"  
     jfrog --version
     jfrog rt c show
     
-    # add insecure registry
-    #cat /etc/containers/registries.conf
-    
-    # if ! grep "registries.insecure" /etc/containers/registries.conf; then 
-    #     echo -e "\n[registries.insecure]\nregistries=['"$(echo $oci_img_name | cut -d'/' -f1)"']" >> /etc/containers/registries.conf
-    # fi  
+    # add insecure registry    
+    if ! grep "registries.insecure" /etc/containers/registries.conf; then 
+        echo -e "\n[registries.insecure]\nregistries=['"$(echo $oci_img_name | cut -d'/' -f1)"']" >> /etc/containers/registries.conf
+    fi  
  
-#   cat /etc/containers/registries.conf
+   cat /etc/containers/registries.conf
     
     # run podman build
-    #podman build -t $oci_img_name:$oci_img_tag -f $dockerfile_name .
+    podman build -t $oci_img_name:$oci_img_tag -f $dockerfile_name .
     
     if [ "$push_img" = true ]; then
-        echo "[INF0] preparing pushing ..."
+        echo "[INFO] preparing pushing ..."
         jfrog rt podman-push $oci_img_name:$oci_img_tag $target_repo --build-name=$build_name --build-number=$build_number
         jfrog rt bp $build_name $build_number
     else 
-        echo "[INF0] NO PUSH"
+        echo "[INFO] NO PUSH"
     fi
 
     $success
