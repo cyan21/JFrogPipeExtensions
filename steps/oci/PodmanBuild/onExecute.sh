@@ -91,7 +91,7 @@ podmanBuild() {
     cd $dockerfile_fullpath
     pwd
     echo "podman build -t $oci_img_name:$oci_img_tag -f $dockerfile_name ."
-    podman build -t $oci_img_name:$oci_img_tag -f $dockerfile_name .
+    #podman build -t $oci_img_name:$oci_img_tag -f $dockerfile_name .
     
     if [ $push_img -eq 1 ]; then
         echo "[INF0] preparing pushing ..."
