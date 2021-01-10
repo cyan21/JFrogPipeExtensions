@@ -81,7 +81,7 @@ podmanBuild() {
    cat /etc/containers/registries.conf
     
     # run podman build
-    podman build -t $oci_img_name:$oci_img_tag -f $dockerfile_name .
+    podman build -t $oci_img_name:$oci_img_tag -f $dockerfile_name $dockerfile_fullpath
     
     if [ "$push_img" = true ]; then
         echo "[INFO] preparing pushing ..."
