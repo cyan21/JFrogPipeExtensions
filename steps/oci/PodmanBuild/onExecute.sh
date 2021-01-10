@@ -24,7 +24,7 @@ podmanBuild() {
     echo "Build name: $build_name"
     echo "Push Image: $push_img"
 
-#    ls -l .
+    ls -l .
 
     # install podman
     if ! which podman ; then 
@@ -36,7 +36,7 @@ podmanBuild() {
         local cnt=1
         local wait=30 
 
-        #ps -ef | grep -i apt | grep -v "grep"
+        ps -ef | grep -i apt | grep -v "grep"
 
         while [ $lock -eq 0 ] do;
             echo "[iteration $cnt] waiting for $wait seconds to check the lock ... "
@@ -46,7 +46,7 @@ podmanBuild() {
             if [ $cnt > 4 ]; then 
                 echo "[ERROR] waiting for too long, failing the step "
                 exit 1
-            if
+            fi
         done
 
         sudo apt -y install podman
