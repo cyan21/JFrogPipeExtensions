@@ -23,14 +23,19 @@ podmanBuild() {
     echo "Image tag: $oci_img_tag"
     echo "Build name: $build_name"
     echo "Push Image: $push_img"
-    
-#    ls -la "$(pwd)/dependencyState/resources/$git_res_name"
+
+    #    ls -la "$(pwd)/dependencyState/resources/$git_res_name"
+    dockerfile_fullpath="dependencyState/resources/$git_res_name/$dockerfile_location/$dockerfile_name"
+
     if [ $dockerfile_location == "." ]; then
-        cd dependencyState/resources/$git_res_name
-    else
-        cd dependencyState/resources/$git_res_name/$dockerfile_location
+        dockerfile_fullpath="dependencyState/resources/$git_res_name/$dockerfile_name"
     fi
 
+    if [ ! -f $dockerfile_fullpath ]; then 
+        echo "[ERROR] Dockerfile not found"
+        exit 1
+    fi
+    
     # install podman
     if ! which podman ; then 
         sudo echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x${operating_system}/ /" |  sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list 
@@ -78,7 +83,7 @@ podmanBuild() {
     cat /etc/containers/registries.conf
     
     # run podman build
-    podman build -t $oci_img_name:$oci_img_tag -f $dockerfile_name .
+    podman build -t $oci_img_name:$oci_img_tag -f $dockerfile_name $dockerfile_fullpath
     
     if [ $push_img -eq 1 ]; then
         jfrog rt podman-push $oci_img_name:$oci_img_tag $target_repo --build-name=$build_name --build-number=$build_number
