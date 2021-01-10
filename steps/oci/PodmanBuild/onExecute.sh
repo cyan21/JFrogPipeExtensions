@@ -43,7 +43,7 @@ podmanBuild() {
 
         sudo ps -ef | grep -i apt | grep -v "grep"
 
-        while [ $lock -eq 0 ] do;
+        while [ $lock -eq 0 ]; do
             echo "[iteration $cnt] waiting for $wait seconds to check the lock ... "
             sleep $wait
             lock=`sudo ps -ef | grep -i apt | grep -v "grep"`
