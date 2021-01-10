@@ -25,16 +25,18 @@ podmanBuild() {
     echo "Push Image: $push_img"
 
     #    ls -la "$(pwd)/dependencyState/resources/$git_res_name"
-    dockerfile_fullpath="dependencyState/resources/$git_res_name/$dockerfile_location/$dockerfile_name"
+    dockerfile_fullpath="dependencyState/resources/$git_res_name/$dockerfile_location"
 
     if [ $dockerfile_location == "." ]; then
-        dockerfile_fullpath="dependencyState/resources/$git_res_name/$dockerfile_name"
+        dockerfile_fullpath="dependencyState/resources/$git_res_name"
     fi
 
     ls -l dependencyState/resources/$git_res_name
-    ls -l  dependencyState/resources/$git_res_name/podman
+    ls -l  dependencyState/resources/$git_res_name/$dockerfile_location
 
-    if [ ! -f $dockerfile_fullpath ]; then 
+    ls -l $dockerfile_fullpath/$dockerfile_location
+
+    if [ ! -f $dockerfile_fullpath/$dockerfile_name ]; then 
         echo "[ERROR] Dockerfile not found"
         exit 1
     fi
