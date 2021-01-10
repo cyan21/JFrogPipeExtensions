@@ -20,6 +20,7 @@ podmanBuild() {
     echo "Image name: $oci_img_name"
     echo "Image tag: $oci_img_tag"
     echo "Build name: $build_name"
+    echo "Push Image: $push_img"
 
     # install podman
     if ! which podman ; then 
@@ -39,7 +40,7 @@ podmanBuild() {
     jfrog rt c show
     
     # add insecure registry
-    cat /etc/containers/registries.conf
+    #cat /etc/containers/registries.conf
     
     if ! grep "registries.insecure" /etc/containers/registries.conf; then 
         echo -e "\n[registries.insecure]\nregistries=['"$(echo $oci_img_name | cut -d"/" -f1)"']" >> /etc/containers/registries.conf
