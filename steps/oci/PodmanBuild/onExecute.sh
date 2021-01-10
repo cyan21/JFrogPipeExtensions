@@ -41,12 +41,13 @@ podmanBuild() {
         local cnt=1
         local wait=30 
 
-        sudo ps -ef | grep -i apt | grep -v "grep"
+        #sudo ps -ef | grep -i apt | grep -v "grep"
 
         while [ $lock -eq 0 ]; do
             echo "[iteration $cnt] waiting for $wait seconds to check the lock ... "
             sleep $wait
             lock=`sudo ps -ef | grep -i apt | grep -v "grep"`
+            echo "lock: $lock"
             let "cnt+=1"
             if [ $cnt -gt 4 ]; then 
                 echo "[ERROR] waiting for too long, failing the step "
