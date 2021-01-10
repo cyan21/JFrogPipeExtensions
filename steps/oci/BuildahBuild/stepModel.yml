@@ -1,4 +1,4 @@
-description: build OCI image with Podman
+description: build OCI image with Buildah
  
 configuration:
   dockerFileName:
@@ -16,6 +16,4 @@ configuration:
   buildName:
     type: String
   buildNumber:
-    type: String
-
-  
+    type: Int
