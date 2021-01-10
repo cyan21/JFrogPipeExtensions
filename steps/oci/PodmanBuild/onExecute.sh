@@ -10,10 +10,10 @@ podmanBuild() {
     local build_name=$(find_step_configuration_value "buildName")
     local build_number=$(find_step_configuration_value "buildNumber")
      
-    local res_name=$(get_resource_name --type GitRepo --operation IN)
-    echo "Git resource: $res_name"
+    local git_res_name=$(get_resource_name --type GitRepo --operation IN)
+    echo "Git resource: $git_res_name"
 
-    res_path=$(find_resource_variable $res_name path)
+    res_path=$(find_resource_variable $git_res_name path)
     echo "Git resource path: $res_path"
 
     echo "Dockerfile name : $dockerfile_name"
@@ -24,8 +24,9 @@ podmanBuild() {
     echo "Build name: $build_name"
     echo "Push Image: $push_img"
     
-    ls -la "$(pwd)/resources/src_code_test_podman"
-
+    ls -la "$(pwd)/dependencyState/resources/$git_res_name"
+    cd $(pwd)/dependencyState/resources/$git_res_name
+    
     # install podman
     if ! which podman ; then 
         sudo echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x${operating_system}/ /" |  sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list 
@@ -68,6 +69,8 @@ podmanBuild() {
     fi  
  
     cat /etc/containers/registries.conf
+    
+    cd resources/src_code_test_podman
 
     # run podman build
     if [ $dockerfile_location == "." ]; then
