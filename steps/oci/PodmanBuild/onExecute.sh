@@ -24,7 +24,7 @@ podmanBuild() {
     echo "Build name: $build_name"
     echo "Push Image: $push_img"
 
-    ls -l .
+    ls -l
 
     # install podman
     if ! which podman ; then 
