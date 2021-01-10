@@ -31,8 +31,8 @@ podmanBuild() {
         dockerfile_fullpath="dependencyState/resources/$git_res_name"
     fi
 
-    ls -l dependencyState/resources/$git_res_name
-    ls -l  dependencyState/resources/$git_res_name/$dockerfile_location
+    # ls -l dependencyState/resources/$git_res_name
+    # ls -l  dependencyState/resources/$git_res_name/$dockerfile_location
 
     ls -l $dockerfile_fullpath
 
@@ -74,7 +74,7 @@ podmanBuild() {
     # install latest J  Frog CLI
     jfrog --version
     cli_path=$(dirname "$(which jfrog)") 
-    curl -fL https://getcli.jfrog.io | sh &&  mv ./jfrog "$cli_path/" && ls -l "$cli_path/jfrog"  
+    curl -fLs https://getcli.jfrog.io | sh &&  mv ./jfrog "$cli_path/" && ls -l "$cli_path/jfrog"  
     jfrog --version
     jfrog rt c show
     
@@ -82,13 +82,16 @@ podmanBuild() {
     #cat /etc/containers/registries.conf
     
     if ! grep "registries.insecure" /etc/containers/registries.conf; then 
-        echo -e "\n[registries.insecure]\nregistries=['"$(echo $oci_img_name | cut -d"/" -f1)"']" >> /etc/containers/registries.conf
+        echo -e "\n[registries.insecure]\nregistries=['"$(echo $oci_img_name | cut -d'/' -f1)"']" >> /etc/containers/registries.conf
     fi  
  
     cat /etc/containers/registries.conf
     
     # run podman build
-    podman build -t $oci_img_name:$oci_img_tag -f $dockerfile_name $dockerfile_fullpath
+    cd $dockerfile_fullpath
+    pwd
+    echo "podman build -t $oci_img_name:$oci_img_tag -f $dockerfile_name ."
+    podman build -t $oci_img_name:$oci_img_tag -f $dockerfile_name .
     
     if [ $push_img -eq 1 ]; then
         echo "[INF0] preparing pushing ..."
