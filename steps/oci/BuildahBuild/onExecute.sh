@@ -62,9 +62,9 @@ buildahBuild() {
             fi
         done
 
-        sudo apt -y install buildah -qq
+        sudo apt -y install podman -qq
     fi
-    buildah info | grep "version"
+    podman info | grep " Version"
     
     # install latest JFrog CLI
     jfrog --version
@@ -81,7 +81,7 @@ buildahBuild() {
    cat /etc/containers/registries.conf
     
     # run buildah build
-    buildah build -t $oci_img_name:$oci_img_tag -f $dockerfile_name $dockerfile_fullpath
+    buildah bud -t $oci_img_name:$oci_img_tag -f $dockerfile_name $dockerfile_fullpath
     
     if [ "$push_img" = true ]; then
         echo "[INFO] preparing pushing ..."
