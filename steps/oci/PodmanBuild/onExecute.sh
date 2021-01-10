@@ -28,7 +28,7 @@ podmanBuild() {
     if ! which podman ; then 
         sudo echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x${operating_system}/ /" |  sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list 
         sudo curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x${operating_system}/Release.key | sudo apt-key add - 
-        sudo apt update 
+        sudo apt update
 
         local lock=0
         local cnt=1
@@ -47,9 +47,9 @@ podmanBuild() {
         #     fi
         # done
 
-        sudo apt -y install podman
+        sudo apt -y install podman -qq
     fi
-    podman info
+    podman info | grep " Version"
     
     # install latest J  Frog CLI
     jfrog --version
@@ -68,7 +68,11 @@ podmanBuild() {
     cat /etc/containers/registries.conf
 
     # run podman build
-    podman build -t $oci_img_name:$oci_img_tag -f $dockerfile_name "$res_path/$dockerfile_location"
+    if [ $dockerfile_location == "." ]; then
+        podman build -t $oci_img_name:$oci_img_tag -f $dockerfile_name "$res_path/"
+    else
+        podman build -t $oci_img_name:$oci_img_tag -f $dockerfile_name "$res_path/$dockerfile_location/"
+    fi
 
     if [ $push_img -eq 1 ]; then
         jfrog rt podman-push $oci_img_name:$oci_img_tag $target_repo --build-name=$build_name --build-number=$build_number
