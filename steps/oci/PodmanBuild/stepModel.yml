@@ -16,6 +16,6 @@ configuration:
   buildName:
     type: String
   buildNumber:
-    type: String
+    type: Int
 
   
