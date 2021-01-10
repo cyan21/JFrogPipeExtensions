@@ -31,7 +31,24 @@ podmanBuild() {
         sudo echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x${operating_system}/ /" |  sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list 
         sudo curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x${operating_system}/Release.key | sudo apt-key add - 
         sudo apt update 
-        sleep 30
+
+        local lock=0
+        local cnt=1
+        local wait=30 
+
+        ps aux | grep -i apt | grep -v "grep"
+        
+        while [ $lock -eq 0 ] do;
+            echo "[iteration $cnt] waiting for $wait seconds to check the lock ... "
+            sleep $wait
+            lock=`ps aux | grep -i apt | grep -v "grep"`
+            let "cnt+=1"
+            if [ $cnt > 4 ]; then 
+                echo "[ERROR] waiting for too long, failing the step "
+                exit 1
+            if
+        done
+
         sudo apt -y install podman
     fi
     podman info
