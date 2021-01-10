@@ -34,7 +34,7 @@ podmanBuild() {
     ls -l dependencyState/resources/$git_res_name
     ls -l  dependencyState/resources/$git_res_name/$dockerfile_location
 
-    ls -l $dockerfile_fullpath/$dockerfile_location
+    ls -l $dockerfile_fullpath
 
     if [ ! -f $dockerfile_fullpath/$dockerfile_name ]; then 
         echo "[ERROR] Dockerfile not found"
