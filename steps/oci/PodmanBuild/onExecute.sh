@@ -81,9 +81,9 @@ podmanBuild() {
     # add insecure registry
     #cat /etc/containers/registries.conf
     
-    if ! grep "registries.insecure" /etc/containers/registries.conf; then 
-        echo -e "\n[registries.insecure]\nregistries=['"$(echo $oci_img_name | cut -d'/' -f1)"']" >> /etc/containers/registries.conf
-    fi  
+    # if ! grep "registries.insecure" /etc/containers/registries.conf; then 
+    #     echo -e "\n[registries.insecure]\nregistries=['"$(echo $oci_img_name | cut -d'/' -f1)"']" >> /etc/containers/registries.conf
+    # fi  
  
 #   cat /etc/containers/registries.conf
     
