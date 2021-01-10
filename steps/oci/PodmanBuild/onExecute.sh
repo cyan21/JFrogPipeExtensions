@@ -26,7 +26,7 @@ podmanBuild() {
     
     ls -la "$(pwd)/dependencyState/resources/$git_res_name"
     cd $(pwd)/dependencyState/resources/$git_res_name
-    
+
     # install podman
     if ! which podman ; then 
         sudo echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x${operating_system}/ /" |  sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list 
@@ -70,8 +70,6 @@ podmanBuild() {
  
     cat /etc/containers/registries.conf
     
-    cd resources/src_code_test_podman
-
     # run podman build
     if [ $dockerfile_location == "." ]; then
         podman build -t $oci_img_name:$oci_img_tag -f $dockerfile_name "$res_path/"
