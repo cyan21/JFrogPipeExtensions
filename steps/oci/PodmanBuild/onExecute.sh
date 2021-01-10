@@ -36,7 +36,7 @@ podmanBuild() {
         local cnt=1
         local wait=30 
 
-        ps -ef | grep -i apt | grep -v "grep"
+        #ps -ef | grep -i apt | grep -v "grep"
 
         while [ $lock -eq 0 ] do;
             echo "[iteration $cnt] waiting for $wait seconds to check the lock ... "
