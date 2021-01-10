@@ -17,10 +17,14 @@ podmanBuild() {
     echo "Git resource path: $res_path"
 
     echo "Dockerfile name : $dockerfile_name"
+    echo "Dockerfile location : $dockerfile_location"
+
     echo "Image name: $oci_img_name"
     echo "Image tag: $oci_img_tag"
     echo "Build name: $build_name"
     echo "Push Image: $push_img"
+
+    ls -l .
 
     # install podman
     if ! which podman ; then 
@@ -48,10 +52,8 @@ podmanBuild() {
  
     cat /etc/containers/registries.conf
 
-
-
     # run podman build
-    podman build -t $oci_img_name:$oci_img_tag -f $dockerfile_name $dockerfile_location 
+    podman build -t $oci_img_name:$oci_img_tag -f $dockerfile_name $res_path/$dockerfile_location 
 
     if [ $push_img -eq 1 ]; then
         jfrog rt podman-push $oci_img_name:$oci_img_tag $target_repo --build-name=$build_name --build-number=$build_number
