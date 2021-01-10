@@ -23,11 +23,9 @@ podmanBuild() {
     echo "Image tag: $oci_img_tag"
     echo "Build name: $build_name"
     echo "Push Image: $push_img"
+    
+    ls -la "$(pwd)/resources/src_code_test_podman"
 
-    pwd 
-    
-    ls -la $(pwd)
-    
     # install podman
     if ! which podman ; then 
         sudo echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x${operating_system}/ /" |  sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list 
