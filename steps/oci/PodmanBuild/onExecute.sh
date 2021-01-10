@@ -56,13 +56,13 @@ podmanBuild() {
 # root      5445  5431  0 19:56 ?        00:00:00 /bin/sh /usr/lib/apt/apt.systemd.daily lock_is_held install
 
         while [ $lock -ne 1 ]; do
-            echo "[iteration $cnt] waiting for $wait seconds to check the lock ... "
+#            echo "[iteration $cnt] waiting for $wait seconds to check the lock ... "
             sleep $wait
             lock=`sudo ps -ef | grep -i apt | grep -c "lock_is_held"`
-            echo "lock: $lock"
+#            echo "lock: $lock"
             let "cnt+=1"
             if [ $cnt -gt 4 ]; then 
-                echo "[ERROR] waiting for too long, failing the step "
+#                echo "[ERROR] waiting for too long, failing the step "
                 exit 1
             fi
         done
@@ -85,20 +85,17 @@ podmanBuild() {
         echo -e "\n[registries.insecure]\nregistries=['"$(echo $oci_img_name | cut -d'/' -f1)"']" >> /etc/containers/registries.conf
     fi  
  
-    cat /etc/containers/registries.conf
+#   cat /etc/containers/registries.conf
     
     # run podman build
-    cd $dockerfile_fullpath
-    pwd
-    echo "podman build -t $oci_img_name:$oci_img_tag -f $dockerfile_name ."
     #podman build -t $oci_img_name:$oci_img_tag -f $dockerfile_name .
     
     if [ $push_img -eq 1 ]; then
-        echo "[INF0] preparing pushing ..."
+#        echo "[INF0] preparing pushing ..."
         jfrog rt podman-push $oci_img_name:$oci_img_tag $target_repo --build-name=$build_name --build-number=$build_number
         jfrog rt bp $build_name $build_number
     else 
-        echo "[INF0] NO PUSH "
+        echo "[INF0] NO PUSH"
     fi
 
     $success
