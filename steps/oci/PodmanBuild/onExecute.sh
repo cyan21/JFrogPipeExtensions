@@ -36,18 +36,18 @@ podmanBuild() {
         local cnt=1
         local wait=30 
 
-        ps -ef | grep -i apt | grep -v "grep"
+        # ps -ef | grep -i apt | grep -v "grep"
 
-        while [ $lock -eq 0 ] do;
-            echo "[iteration $cnt] waiting for $wait seconds to check the lock ... "
-            sleep $wait
-            lock=`ps -ef | grep -i apt | grep -v "grep"`
-            let "cnt+=1"
-            if [ $cnt > 4 ]; then 
-                echo "[ERROR] waiting for too long, failing the step "
-                exit 1
-            fi
-        done
+        # while [ $lock -eq 0 ] do;
+        #     echo "[iteration $cnt] waiting for $wait seconds to check the lock ... "
+        #     sleep $wait
+        #     lock=`ps -ef | grep -i apt | grep -v "grep"`
+        #     let "cnt+=1"
+        #     if [ $cnt > 4 ]; then 
+        #         echo "[ERROR] waiting for too long, failing the step "
+        #         exit 1
+        #     fi
+        # done
 
         sudo apt -y install podman
     fi
@@ -70,7 +70,7 @@ podmanBuild() {
     cat /etc/containers/registries.conf
 
     # run podman build
-    podman build -t $oci_img_name:$oci_img_tag -f $dockerfile_name $res_path/$dockerfile_location 
+    podman build -t $oci_img_name:$oci_img_tag -f $dockerfile_name "$res_path/$dockerfile_location"
 
     if [ $push_img -eq 1 ]; then
         jfrog rt podman-push $oci_img_name:$oci_img_tag $target_repo --build-name=$build_name --build-number=$build_number
