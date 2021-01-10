@@ -43,16 +43,16 @@ podmanBuild() {
 
         sudo ps -ef | grep -i apt | grep -v "grep"
 
-        # while [ $lock -eq 0 ] do;
-        #     echo "[iteration $cnt] waiting for $wait seconds to check the lock ... "
-        #     sleep $wait
-        #     lock=`sudo ps -ef | grep -i apt | grep -v "grep"`
-        #     let "cnt+=1"
-        #     if [ $cnt > 4 ]; then 
-        #         echo "[ERROR] waiting for too long, failing the step "
-        #         exit 1
-        #     fi
-        # done
+        while [ $lock -eq 0 ] do;
+            echo "[iteration $cnt] waiting for $wait seconds to check the lock ... "
+            sleep $wait
+            lock=`sudo ps -ef | grep -i apt | grep -v "grep"`
+            let "cnt+=1"
+            if [ $cnt -gt 4 ]; then 
+                echo "[ERROR] waiting for too long, failing the step "
+                exit 1
+            fi
+        done
 
         sudo apt -y install podman -qq
     fi
