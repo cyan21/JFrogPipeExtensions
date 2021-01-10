@@ -37,16 +37,18 @@ podmanBuild() {
         sudo curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x${operating_system}/Release.key | sudo apt-key add - 
         sudo apt update
 
-        local lock=0
+        local lock=1
         local cnt=1
         local wait=30 
 
-        #sudo ps -ef | grep -i apt | grep -v "grep"
+        #sudo ps -ef | grep -i apt
+# root      5431     1  0 19:56 ?        00:00:00 /bin/sh /usr/lib/apt/apt.systemd.daily install
+# root      5445  5431  0 19:56 ?        00:00:00 /bin/sh /usr/lib/apt/apt.systemd.daily lock_is_held install
 
-        while [ $lock -eq 0 ]; do
+        while [ $lock -ne 1 ]; do
             echo "[iteration $cnt] waiting for $wait seconds to check the lock ... "
             sleep $wait
-            lock=`sudo ps -ef | grep -i apt | grep -v "grep"`
+            lock=`sudo ps -ef | grep -i apt | grep -c "lock_is_held"`
             echo "lock: $lock"
             let "cnt+=1"
             if [ $cnt -gt 4 ]; then 
