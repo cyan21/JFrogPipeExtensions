@@ -31,11 +31,14 @@ podmanBuild() {
         dockerfile_fullpath="dependencyState/resources/$git_res_name/$dockerfile_name"
     fi
 
+    ls -l dependencyState/resources/$git_res_name
+    ls -l  dependencyState/resources/$git_res_name/podman
+
     if [ ! -f $dockerfile_fullpath ]; then 
         echo "[ERROR] Dockerfile not found"
         exit 1
     fi
-    
+
     # install podman
     if ! which podman ; then 
         sudo echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x${operating_system}/ /" |  sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list 
