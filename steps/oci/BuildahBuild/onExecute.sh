@@ -64,7 +64,7 @@ buildahBuild() {
 
         sudo apt -y install buildah -qq
     fi
-    buildah info | grep " Version"
+    buildah info | grep "version"
     
     # install latest JFrog CLI
     jfrog --version
