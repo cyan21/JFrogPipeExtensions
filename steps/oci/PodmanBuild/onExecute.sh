@@ -9,8 +9,10 @@ podmanBuild() {
     local target_repo=$(find_step_configuration_value "artifactoryTargetRepoName")
     local build_name=$(find_step_configuration_value "buildName")
     local build_number=$(find_step_configuration_value "buildNumber")
-     
+    local artifact=$(find_step_configuration_value "buildDependency")
+
     local git_res_name=$(get_resource_name --type GitRepo --operation IN)
+
     echo "Git resource: $git_res_name"
 
     res_path=$(find_resource_variable $git_res_name path)
@@ -72,14 +74,22 @@ podmanBuild() {
     curl -fLs https://getcli.jfrog.io | sh &&  mv ./jfrog "$cli_path/" && ls -l "$cli_path/jfrog"  
     jfrog --version
     jfrog rt c show
-    
+
     # add insecure registry    
     if ! grep "registries.insecure" /etc/containers/registries.conf; then 
         echo -e "\n[registries.insecure]\nregistries=['"$(echo $oci_img_name | cut -d'/' -f1)"']" >> /etc/containers/registries.conf
     fi  
  
-   cat /etc/containers/registries.conf
+    cat /etc/containers/registries.conf
     
+    # download artifact from Artifactory 
+    # ${artifact%%/*.*} = extract the filename and its extension from the path
+    if [ $artifact != "" ]; then 
+        echo "[DEBUG] jfrog rt download $artifact ${artifact%%/*.*} --module=myapp --flat=true --build-name=$build_name --build-number=$build_number"
+
+        jfrog rt download $artifact ${artifact%%/*.*} --module=myapp --flat=true --build-name=$build_name --build-number=$build_number
+    fi
+
     # run podman build
     podman build -t $oci_img_name:$oci_img_tag -f $dockerfile_name $dockerfile_fullpath
     
