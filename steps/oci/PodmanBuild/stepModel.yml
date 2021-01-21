@@ -17,4 +17,5 @@ configuration:
     type: String
   buildNumber:
     type: Int
-  
+  buildDependency: # path to the file to copy in the image
+    type: String
