@@ -85,7 +85,8 @@ podmanBuild() {
     
     # download artifact from Artifactory 
     if [ -n "$artifact" ]; then 
-        echo "[DEBUG] jfrog rt download $artifact ${artifact%%/*.*} --module=myapp --flat=true --build-name=$build_name --build-number=$build_number"
+        echo "[DEBUG] jfrog rt download $artifact $(basename $artifact) --module=myapp --flat=true --build-name=$build_name --build-number=$build_number"
+        jfrog rt download $artifact $(basename $artifact) --module=myapp --flat=true --build-name=$build_name --build-number=$build_number    
     else
         echo "artifact is NULL"
     fi
