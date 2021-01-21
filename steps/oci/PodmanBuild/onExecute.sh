@@ -84,7 +84,7 @@ podmanBuild() {
     cat /etc/containers/registries.conf
     
     # download artifact from Artifactory 
-    if [ -n "$artifact"]; then 
+    if [ -n "$artifact" ]; then 
         echo "[DEBUG] jfrog rt download $artifact ${artifact%%/*.*} --module=myapp --flat=true --build-name=$build_name --build-number=$build_number"
     else
         echo "artifact is NULL"
