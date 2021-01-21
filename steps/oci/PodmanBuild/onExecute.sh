@@ -25,6 +25,7 @@ podmanBuild() {
     echo "Image tag: $oci_img_tag"
     echo "Build name: $build_name"
     echo "Push Image: $push_img"
+    echo "Artfifact: $artifact"
 
     #    ls -la "$(pwd)/dependencyState/resources/$git_res_name"
     dockerfile_fullpath="dependencyState/resources/$git_res_name/$dockerfile_location"
@@ -85,7 +86,9 @@ podmanBuild() {
     # download artifact from Artifactory 
     if [ ! -n "$artifact"]; then 
         echo $artifact
-   fi
+    else
+        echo "artifact is NULL"
+    fi
     # run podman build
     podman build -t $oci_img_name:$oci_img_tag -f $dockerfile_name $dockerfile_fullpath
     
