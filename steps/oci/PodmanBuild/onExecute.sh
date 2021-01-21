@@ -84,9 +84,8 @@ podmanBuild() {
     
     # download artifact from Artifactory 
     # ${artifact%%/*.*} = extract the filename and its extension from the path
-    if [ $artifact != "" ]; then 
-        echo "[DEBUG] jfrog rt download $artifact ${artifact%%/*.*} --module=myapp --flat=true --build-name=$build_name --build-number=$build_number"
-
+    if "$artifact" != ""; then 
+        #echo "[DEBUG] jfrog rt download $artifact ${artifact%%/*.*} --module=myapp --flat=true --build-name=$build_name --build-number=$build_number"
         jfrog rt download $artifact ${artifact%%/*.*} --module=myapp --flat=true --build-name=$build_name --build-number=$build_number
     fi
 
