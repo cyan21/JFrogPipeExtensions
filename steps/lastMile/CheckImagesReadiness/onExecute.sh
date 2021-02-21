@@ -34,7 +34,7 @@ checkImagesReadiness() {
             count=1
             found=0
 
-            img=`jfrog rt s --spec=helmChart.filespec --spec-vars="repo=${repo};chart=${chart}" | jq -r '.[].props."$prop_back_img"[]'` 
+            img=`jfrog rt s --spec=helmChart.filespec --spec-vars="repo=${repo};chart=${chart}" | jq -r ".[].props.\"$prop_back_img\"[]"` 
             echo $img
 
             img_name=`echo $img | cut -d/ -f1`
