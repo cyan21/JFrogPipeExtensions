@@ -1,0 +1,13 @@
+description: build OCI image with Podman
+ 
+configuration:
+  propSearch:     # image names and tags are set on the HelmChart as properties
+    type: Boolean
+  propBackImage:  # only when propSearch is true
+    type: String
+  propFrontImage: # only when propSearch is true
+    type: String
+  retry:          # how many time to check
+    type: Integer 
+  wait_time:      # how long to wait before a check
+    type: Integer 
