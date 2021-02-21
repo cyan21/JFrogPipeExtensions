@@ -48,7 +48,7 @@ checkImagesReadiness() {
             echo $dockerRepo
             
             # Check if image exists
-            while [ $count -lt $retry && $found -ne 1 ]; do
+            while [ $count -lt $retry ] && [ $found -ne 1 ]; do
                 
                 # returns 0 if tag found    
                 jfrog rt curl api/docker/${dockerRepo}/v2/${img_name}/tags/list --silent | grep "$img_tag"
