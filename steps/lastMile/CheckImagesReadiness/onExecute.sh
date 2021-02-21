@@ -73,4 +73,4 @@ checkImagesReadiness() {
     $success
 }
  
-execute_command podmanBuild
+execute_command checkImagesReadiness
