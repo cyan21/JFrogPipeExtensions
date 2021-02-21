@@ -28,13 +28,16 @@ checkImagesReadiness() {
 
     if [ "$is_prop_search" = true ]; then
 
-        # Get props 
-        for img in $prop_back_img $prop_front_img; do
+        echo "[DEBUG] Prop search turned ON"
 
+        # Get props 
+        for curr_img in $prop_back_img $prop_front_img; do
+
+            echo "[DEBUG] looking for $curr_img ..."
             count=1
             found=0
 
-            img=`jfrog rt s --spec=helmChart.filespec --spec-vars="repo=${repo};chart=${chart}" | jq -r ".[].props.\"$prop_back_img\"[]"` 
+            img=`jfrog rt s --spec=helmChart.filespec --spec-vars="repo=${repo};chart=${chart}" | jq -r ".[].props.\"$curr_img\"[]"` 
             echo $img
 
             img_name=`echo $img | cut -d/ -f1`
@@ -55,6 +58,7 @@ checkImagesReadiness() {
                 jfrog rt curl api/docker/${dockerRepo}/v2/${img_name}/tags/list --silent | grep "$img_tag"
                 
                 if [ $? -eq 0 ]; then
+                    echo "[DEBUG] ${img_name}/${img_tag} image found"
                     found=1
                 else
                     echo "[DEBUG][Tentative=$retry] Image container not found ... testing again in $wait_time"
