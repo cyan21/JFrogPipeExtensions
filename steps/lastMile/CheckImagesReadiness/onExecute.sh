@@ -56,7 +56,7 @@ checkImagesReadiness() {
             echo "retry: $retry"
 
             # Check if image exists
-            while [ $count -lt $retry ] && [ $found -ne 1 ]; do
+            while [ $count -le $retry ] && [ $found -ne 1 ]; do
             # while [ $count -lt $retry ]; do
             
                 if [ ! -z "$dockerRepo" ]; then 
