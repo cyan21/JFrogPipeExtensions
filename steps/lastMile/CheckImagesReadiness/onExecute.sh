@@ -21,8 +21,8 @@ checkImagesReadiness() {
     echo "wait time: $wait_time"
 
     # Locate Helm Chart
-    repo=`jq -r '.data.repo_key' payload.json`
-    chart=`jq -r '.data.name' payload.json`
+    repo=`echo $res_payload | jq -r '.data.repo_key'`
+    chart=`echo $res_payload | jq -r '.data.name'`
     echo '{"files": [{"pattern": "${repo}/${chart}"}]}' > helmChart.filespec
     cat helmChart.filespec
 
