@@ -5,7 +5,7 @@ checkImagesReadiness() {
     local prop_back_img=$(find_step_configuration_value "propBackImage")
     local prop_front_img=$(find_step_configuration_value "propBackImage")
     local retry=$(find_step_configuration_value "retry")
-    local wait_time=$(find_step_configuration_value "wait_time")
+    local wait_time=$(find_step_configuration_value "waitTime")
 
     local webhook_rsrc=$(get_resource_name --type IncomingWebhook --operation IN)
 

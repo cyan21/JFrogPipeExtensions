@@ -9,5 +9,5 @@ configuration:
     type: String
   retry:          # how many time to check
     type: Int
-  wait_time:      # how long to wait before a check
+  waitTime:      # how long to wait before a check
     type: Int 
