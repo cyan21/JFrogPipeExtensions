@@ -29,6 +29,7 @@ checkImagesReadiness() {
     if [ "$is_prop_search" = true ]; then
 
         echo "[DEBUG] Prop search turned ON"
+        echo "=============================="
 
         # Get props 
         for curr_img in $prop_back_img $prop_front_img; do
@@ -51,7 +52,7 @@ checkImagesReadiness() {
             echo $dockerRepo
             
             # Check if image exists
-            # while [ $count -lt $retry ] && [ $found -ne 1 ]; do
+            while [ $count -lt $retry ] && [ $found -ne 1 ]; do
             # while [ $count -lt $retry ]; do
             
                 if [ ! -z "$dockerRepo" ]; then 
@@ -68,12 +69,11 @@ checkImagesReadiness() {
                         let "count+=1"
                     fi
                 else
-                    echo "[DEBUG][Tentative=$retry] Image container not found ... testing again in $wait_time"
+                    echo "[DEBUG][Tentative=$count/$retry] Image container not found ... testing again in $wait_time"
                     sleep $wait_time
                     let "count+=1"
                 fi
-
-            # done 
+            done 
         done 
     # else
         # extract images names from values.yml in Helm Chart
