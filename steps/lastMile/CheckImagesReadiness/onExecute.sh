@@ -53,19 +53,26 @@ checkImagesReadiness() {
             # Check if image exists
             # while [ $count -lt $retry ] && [ $found -ne 1 ]; do
             # while [ $count -lt $retry ]; do
-                
-            #     # returns 0 if tag found  
-                echo "jfrog rt curl api/docker/${dockerRepo}/v2/${img_name}/tags/list --silent | grep \"$img_tag\""  
-                jfrog rt curl api/docker/${dockerRepo}/v2/${img_name}/tags/list --silent | grep "$img_tag"
-                
-                if [ $? -eq 0 ]; then
-                    echo "[DEBUG] ${img_name}/${img_tag} image found"
-                    found=1
+            
+                if [ ! -z "$dockerRepo" ]; then 
+                    # returns 0 if tag found  
+                    echo "jfrog rt curl api/docker/${dockerRepo}/v2/${img_name}/tags/list --silent | grep \"$img_tag\""  
+                    jfrog rt curl api/docker/${dockerRepo}/v2/${img_name}/tags/list --silent | grep "$img_tag"
+
+                    if [ $? -eq 0 ]; then
+                        echo "[DEBUG] ${img_name}/${img_tag} image found"
+                        found=1
+                    else 
+                        echo "[DEBUG][Tentative=$retry] Image container not found ... testing again in $wait_time"
+                        sleep $wait_time
+                        let "count+=1"
+                    fi
                 else
                     echo "[DEBUG][Tentative=$retry] Image container not found ... testing again in $wait_time"
                     sleep $wait_time
                     let "count+=1"
                 fi
+
             # done 
         done 
     # else
