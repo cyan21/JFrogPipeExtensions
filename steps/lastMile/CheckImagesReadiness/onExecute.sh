@@ -49,8 +49,12 @@ checkImagesReadiness() {
             echo "{\"files\": [{\"pattern\": \"**/$img/manifest.json\"}]}" > docker.filespec
             cat docker.filespec
             dockerRepo=`jfrog rt s --spec=docker.filespec | jq -r ".[].path" | cut -d/ -f1`
-            echo $dockerRepo
+            echo "Docker repo : $dockerRepo"
             
+            echo "count: $count"
+            echo "found: $found"
+            echo "retry: $retry"
+
             # Check if image exists
             while [ $count -lt $retry ] && [ $found -ne 1 ]; do
             # while [ $count -lt $retry ]; do
