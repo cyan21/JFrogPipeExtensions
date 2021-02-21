@@ -8,6 +8,6 @@ configuration:
   propFrontImage: # only when propSearch is true
     type: String
   retry:          # how many time to check
-    type: Integer 
+    type: Int
   wait_time:      # how long to wait before a check
-    type: Integer 
+    type: Int 
