@@ -3,7 +3,7 @@ checkImagesReadiness() {
 
     local is_prop_search=$(find_step_configuration_value "propSearch")
     local prop_back_img=$(find_step_configuration_value "propBackImage")
-    local prop_front_img=$(find_step_configuration_value "propBackImage")
+    local prop_front_img=$(find_step_configuration_value "propFrontImage")
     local retry=$(find_step_configuration_value "retry")
     local wait_time=$(find_step_configuration_value "waitTime")
 
