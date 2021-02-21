@@ -62,10 +62,9 @@ checkImagesReadiness() {
                 fi
             done 
         done 
-    else
+    # else
         # extract images names from values.yml in Helm Chart
         # TO DO 
-
         # Download Helm Chart
 
         # Extract content and parse Values.yml with yq client
