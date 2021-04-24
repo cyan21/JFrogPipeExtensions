@@ -22,8 +22,8 @@ cleanupArtifact() {
     # echo "repository 1: ${repos[0]}"
     # echo "number of repositories: ${#repos[@]}"
 
-    res_policies=$(find_resource_variable my_cleanup_policy cleanupPolicies)
-    echo "list of policies: $res_policies"
+    res_repos=$(find_resource_variable my_cleanup_policies repositories)
+    echo "list of repo: $res_repos"
 
     echo "[INFO] Cleanup done"
 
