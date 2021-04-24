@@ -1,6 +1,8 @@
 description: package application into debian package
  
 configuration:
+  dryRun:
+    type: Boolean
   policies:   # possible values : day,month,year  
     type: cleanupPolicy
 
