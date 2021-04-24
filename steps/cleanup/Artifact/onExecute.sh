@@ -2,7 +2,7 @@
 cleanupArtifact() {
     local success=true
 
-    local cleanup_policy=$(get_resource_name --type Policy --operation IN)
+    local cleanup_policy=$(get_resource_name --type cleanup/Policy/latest --operation IN)
 
     local dry_run=$(find_step_configuration_value "dryRun")
 
