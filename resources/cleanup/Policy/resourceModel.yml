@@ -1,10 +1,25 @@
 description: defines a cleanup Policy. should be used with Extension "cleanup/Artifact" 
  
-configuration:
-  repositories:
-    type: String[]
-  timeUnit:
-    type: String
-  timeInterval:  
-    type: Int
+# configuration:
+#   repositories:
+#     type: String[]
+#   timeUnit:
+#     type: String
+#   timeInterval:  
+#     type: Int
 
+configuration:
+  cleanupPolicies:
+    type: Policy[]
+
+userDefinedDataType:           # array of data type definitions
+  - type: Policy               # Defines a new data type
+    configuration:
+      - name:                
+        type: String       
+      - repositories:                
+        type: String[]         
+      - timeUnit:
+        type: String
+      - timeInterval:  
+        type: Int
