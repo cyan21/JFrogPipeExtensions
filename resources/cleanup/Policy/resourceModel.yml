@@ -10,7 +10,7 @@ description: defines a cleanup Policy. should be used with Extension "cleanup/Ar
 
 configuration:
   cleanupPolicies:
-    type: Policy[]
+    type: Policy
 
 userDefinedDataType:           # array of data type definitions
   - type: Policy               # Defines a new data type
