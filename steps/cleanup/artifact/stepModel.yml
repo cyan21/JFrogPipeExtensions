@@ -1,0 +1,15 @@
+description: package application into debian package
+ 
+configuration:
+  policies:   # possible values : day,month,year  
+    type: cleanupPolicy
+
+userDefinedDataType: 
+  - type: cleanupPolicy
+    configuration:
+      # - repositories:                 
+      #   type: String[]
+      - timeUnit:
+        type: String
+      - timeInterval:  
+        type: Int
