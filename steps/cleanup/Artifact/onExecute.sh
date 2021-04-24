@@ -11,16 +11,19 @@ cleanupArtifact() {
     
     echo "Cleanup policy name: $cleanup_policy"
 
-    res_timeUnit_workaround=$(find_resource_variable my_cleanup_policy timeUnit)
-    echo "timeUnit: $res_timeUnit_workaround"
+    # res_timeUnit_workaround=$(find_resource_variable my_cleanup_policy timeUnit)
+    # echo "timeUnit: $res_timeUnit_workaround"
 
     # res_timeUnit=$(find_resource_variable $cleanup_policy timeUnit)    
     # echo "timeUnit: $res_timeUnit"
     
-    repos=$(find_resource_variable my_cleanup_policy repositories)
-    echo "repositories: $repos"
-    echo "repository 1: ${repos[0]}"
-    echo "number of repositories: ${#repos[@]}"
+    # repos=$(find_resource_variable my_cleanup_policy repositories)
+    # echo "repositories: $repos"
+    # echo "repository 1: ${repos[0]}"
+    # echo "number of repositories: ${#repos[@]}"
+
+    res_policies=$(find_resource_variable my_cleanup_policy cleanupPolicies)
+    echo "list of policies: $res_policies"
 
     echo "[INFO] Cleanup done"
 
