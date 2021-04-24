@@ -1,0 +1,10 @@
+description: defines a cleanup Policy. should be used with Extension "cleanup/Artifact" 
+ 
+configuration:
+  repositories:
+    type: String[]
+  timeUnit:
+    type: String
+  timeInterval:  
+    type: Int
+
