@@ -15,11 +15,11 @@ configuration:
 userDefinedDataType:           # array of data type definitions
   - type: Policy               # Defines a new data type
     configuration:
-      - name:                
+      name:                
         type: String       
-      - repositories:                
+      repositories:                
         type: String[]         
-      - timeUnit:
+      timeUnit:
         type: String
-      - timeInterval:  
+      timeInterval:  
         type: Int
