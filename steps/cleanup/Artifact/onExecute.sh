@@ -22,12 +22,16 @@ cleanupArtifact() {
     # echo "repository 1: ${repos[0]}"
     # echo "number of repositories: ${#repos[@]}"
 
-    # # OK if custom
+    # # OK if custom resources
     # configuration:
     #   cleanupPolicies:
     #     type: Policy
-    res_cleanupPolicies=$(find_resource_variable my_cleanup_policies cleanupPolicies)
-    echo "list of policies: $res_cleanupPolicies"
+    # res_cleanupPolicies=$(find_resource_variable my_cleanup_policies cleanupPolicies)
+    # echo "list of policies: $res_cleanupPolicies"
+
+    local policies=$(find_step_configuration_value "policies")
+    echo "list of policies: $policies"
+
 
     echo "[INFO] Cleanup done"
 
