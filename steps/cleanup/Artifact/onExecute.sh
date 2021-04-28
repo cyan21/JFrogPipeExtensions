@@ -32,6 +32,17 @@ cleanupArtifact() {
     local policies=$(find_step_configuration_value "policies")
     echo "list of policies: $policies"
 
+    local time_unit=`echo $policies | jq -r ".[].timeUnit"`
+    local time_interval=`echo $policies | jq -r ".[].timeInterval"`
+    echo "Time Unit: $time_unit"
+    echo "Time Interval: $time_interval"
+
+    for repo in `echo $policies | jq -r ".[].repositories[]"`; do 
+        echo "rt-cleanup clean $repo --time-unit=$time_unit --no-dl=$time_interval"; 
+    done
+
+    jfrog plugin install rt-cleanup
+    # jfrog rt-cleanup clean example-repo-local --time-unit=day --no-dl=3
 
     echo "[INFO] Cleanup done"
 
