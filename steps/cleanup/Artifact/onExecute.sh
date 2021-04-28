@@ -20,6 +20,8 @@ cleanupArtifact() {
     # res_timeUnit=$(find_resource_variable $cleanup_policy timeUnit)    
     # echo "timeUnit: $res_timeUnit"
     
+    jfrog --version
+
     jfrog plugin install rt-cleanup
 
     for repo in `echo $policies | jq -r ".[].repositories[]"`; do 
@@ -27,6 +29,8 @@ cleanupArtifact() {
 
         if [[ $dry_run == "false" ]]; then
             jfrog rt-cleanup clean $repo --time-unit=$time_unit --no-dl=$time_interval
+        else
+            echo "No exec"
         fi 
     done
 
