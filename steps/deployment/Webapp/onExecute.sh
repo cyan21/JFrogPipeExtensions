@@ -36,14 +36,14 @@ deployWebApp() {
     
     # echo "$res_wh_jenkins_payload" | jq '.' > payload.json
     # cat payload.json
-    # nb_ips=`echo $ips | jq ". | length"
-    # echo $nb_ips
+    nb_ips=`echo $ips | jq ". | length"`
+    echo $nb_ips
 
 
-        #     for curr_ip in {1..$nb_ips}; do
-        #         echo ${curr_ip}
-        # #        ssh -i ~/.ssh/$vm_rsc_name ec2-user@${curr_ip} "uname -a &&./test.sh"
-        #     done
+    for curr_ip in {1..$nb_ips}; do
+        echo ${curr_ip}
+        ssh -i ~/.ssh/$vm_rsc_name ec2-user@${curr_ip} "uname -a &&./test.sh"
+    done
 
     echo "[INFO] Deployment done"
 
