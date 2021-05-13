@@ -3,9 +3,9 @@ description: execute cleanup policy
 configuration:
   technology: 
     type: String  #java, dotnet, javascript
-  appserver:
+  appServer:
     type: String  #jboss, tomcat
-  webserver:
+  webServer:
     type: String  #nginx, httpd, iis
   ansible:
     type: ansibleInfo
