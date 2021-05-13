@@ -1,5 +1,5 @@
 
-cleanupArtifact() {
+deployWebApp() {
     local success=true
 
     local technology=$(find_step_configuration_value "technology")
@@ -10,6 +10,18 @@ cleanupArtifact() {
     local role=`echo $ansible_deploy | jq -r ".role"`
     local inventory=`echo $ansible_deploy | jq -r ".inventory"`
 
+    local webhook_rsc_name=$(get_resource_name --type IncomingWebhook --operation IN)
+    echo "Webhook name: $webhook_rsc_name"
+
+    local vm_rsc_name=$(get_resource_name --type VmCluster --operation IN)
+    echo "VM Cluster name: $vm_rsc_name"
+
+    local sshkey=$(find_resource_variable $vm_rsc_name sshkey)
+    echo "SSH Key name: $sshkey"
+
+    local ips=$(find_resource_variable $vm_rsc_name targets)
+    echo "target IPs : $ips"
+
     echo "Technology : $technology"
     echo "Application server: $appserver"
     echo "Web server: $webserver"
@@ -19,11 +31,10 @@ cleanupArtifact() {
 
     echo "[INFO] Starting deployment ..."
     
-    # res_timeUnit_workaround=$(find_resource_variable my_cleanup_policy timeUnit)
-    # echo "timeUnit: $res_timeUnit_workaround"
+    # echo "$res_wh_jenkins_payload" | jq '.' > payload.json
+    # cat payload.json
 
-    # res_timeUnit=$(find_resource_variable $cleanup_policy timeUnit)    
-    # echo "timeUnit: $res_timeUnit"
+    # ssh -i ~/.ssh/vm_group ec2-user@${res_vm_group_targets_0} "uname -a &&./test.sh"
     
     echo "[INFO] Deployment done"
 
@@ -31,4 +42,4 @@ cleanupArtifact() {
     $success
 }
  
-execute_command cleanupArtifact
+execute_command deployWebApp
