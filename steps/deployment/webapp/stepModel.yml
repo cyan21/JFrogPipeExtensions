@@ -1,0 +1,20 @@
+description: execute cleanup policy
+ 
+configuration:
+  technology: 
+    type: String  #java, dotnet, javascript
+  appserver:
+    type: String  #jboss, tomcat
+  webserver:
+    type: String  #nginx, httpd, iis
+  ansible:
+    type: ansibleInfo
+
+
+userDefinedDataType:           # array of data type definitions
+  - type: ansibleInfo               # Defines a new data type
+    configuration:
+      role:                
+        type: String       
+      inventory:                
+        type: String         
