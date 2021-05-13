@@ -13,10 +13,13 @@ deployWebApp() {
     local webhook_rsc_name=$(get_resource_name --type IncomingWebhook --operation IN)
     echo "Webhook name: $webhook_rsc_name"
 
+    local payload=$(find_resource_variable $webhook_rsc_name payload)
+    echo "Webhook payload: $payload"
+
     local vm_rsc_name=$(get_resource_name --type VmCluster --operation IN)
     echo "VM Cluster name: $vm_rsc_name"
 
-    local sshkey=$(find_resource_variable $vm_rsc_name sshkey)
+    local sshkey=$(find_resource_variable $vm_rsc_name sshKey)
     echo "SSH Key name: $sshkey"
 
     local ips=$(find_resource_variable $vm_rsc_name targets)
@@ -33,9 +36,12 @@ deployWebApp() {
     
     # echo "$res_wh_jenkins_payload" | jq '.' > payload.json
     # cat payload.json
+    nb_ips=`echo $ips | jq ". | length"
 
-    # ssh -i ~/.ssh/vm_group ec2-user@${res_vm_group_targets_0} "uname -a &&./test.sh"
-    
+    for curr_ip in {1..$nb_ips}; do
+        ssh -i ~/.ssh/$vm_rsc_name ec2-user@${curr_ip} "uname -a &&./test.sh"
+    done
+
     echo "[INFO] Deployment done"
 
 
