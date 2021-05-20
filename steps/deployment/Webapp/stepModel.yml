@@ -1,20 +1,34 @@
-description: execute cleanup policy
+description: Deploy a webapp
  
 configuration:
-  technology: 
-    type: String  #java, dotnet, javascript
-  appServer:
-    type: String  #jboss, tomcat
-  webServer:
-    type: String  #nginx, httpd, iis
+  dryRun: 
+    type: Boolean
+  comment: 
+    type: String  
+  container:
+    type: Docker
+  webApp:
+    type: Archive
   ansible:
-    type: ansibleInfo
+    type: AnsibleInfo
 
 
 userDefinedDataType:           # array of data type definitions
-  - type: ansibleInfo               # Defines a new data type
+  - type: AnsibleInfo               # Defines a new data type
     configuration:
       role:                
         type: String       
       inventory:                
         type: String         
+  - type: Docker               # Defines a new data type
+    configuration:
+      repo:                
+        type: String       
+      tag:                
+        type: String  
+  - type: Archive               # Defines a new data type
+    configuration:
+      path:                
+        type: String       
+      technology:                
+        type: String          # wildfly, tomcat, IIS

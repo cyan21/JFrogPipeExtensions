@@ -2,13 +2,21 @@
 deployWebApp() {
     local success=true
 
-    local technology=$(find_step_configuration_value "technology")
-    local appserver=$(find_step_configuration_value "appserver")
-    local webserver=$(find_step_configuration_value "webserver")
+    local dry_run=$(find_step_configuration_value "dryRun")
+    local comment=$(find_step_configuration_value "comment")
+
+    local web_app=$(find_step_configuration_value "webApp")
+    local container=$(find_step_configuration_value "container")
     local ansible_deploy=$(find_step_configuration_value "ansible")
 
     local role=`echo $ansible_deploy | jq -r ".role"`
     local inventory=`echo $ansible_deploy | jq -r ".inventory"`
+
+    local repo=`echo $container | jq -r ".repo"`
+    local tag=`echo $container | jq -r ".tag"`
+
+    local repo=`echo $web_app | jq -r ".path"`
+    local tag=`echo $web_app | jq -r ".technology"`
 
     local webhook_rsc_name=$(get_resource_name --type IncomingWebhook --operation IN)
     echo "Webhook name: $webhook_rsc_name"
@@ -25,9 +33,17 @@ deployWebApp() {
     local ips=$(find_resource_variable $vm_rsc_name targets)
     echo "target IPs : $ips"
 
-    echo "Technology : $technology"
-    echo "Application server: $appserver"
-    echo "Web server: $webserver"
+    echo "Dry run mode : $dry_run"
+    echo "Comment : $comment"
+
+    echo "Webapp: $container"
+    echo "repo: $repo"
+    echo "tag: $tag"
+
+    echo "Container info: $container"
+    echo "repo: $repo"
+    echo "tag: $tag"
+
     echo "Ansible info : $ansible_deploy"
     echo "Ansible role : $role"
     echo "Ansible inventory : $inventory"
