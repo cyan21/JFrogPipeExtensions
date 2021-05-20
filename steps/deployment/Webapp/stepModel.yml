@@ -6,7 +6,7 @@ configuration:
   comment: 
     type: String  
   container:
-    type: Docker
+    type: ContainerImage
   webApp:
     type: Archive
   ansible:
@@ -20,7 +20,7 @@ userDefinedDataType:           # array of data type definitions
         type: String       
       inventory:                
         type: String         
-  - type: Docker               # Defines a new data type
+  - type: ContainerImage               # Defines a new data type
     configuration:
       repo:                
         type: String       
