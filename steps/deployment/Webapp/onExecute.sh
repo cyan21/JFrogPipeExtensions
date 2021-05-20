@@ -1,6 +1,7 @@
 
 deployWebApp() {
     local success=true
+    local deploy_mode=""
 
     local dry_run=$(find_step_configuration_value "dryRun")
     local comment=$(find_step_configuration_value "comment")
@@ -40,29 +41,45 @@ deployWebApp() {
     echo "path: $path"
     echo "technology: $path"
 
+    if [ -n $webapp ]; then
+        deploy_mode="WebApp"
+    else 
+        
+    fi
+
     echo "Container info: $container"
     echo "repo: $repo"
     echo "tag: $tag"
+
+    if [  -z $deploy_mode ]; then
+        deploy_mode="Container"
+    else
+        success=false
+        echo "[ERROR] You can choose only 1 deployment type"
+    fi   
 
     echo "Ansible info : $ansible_deploy"
     echo "role : $role"
     echo "inventory : $inventory"
 
-    echo "[INFO] Starting deployment ..."
-    
-    # echo "$res_wh_jenkins_payload" | jq '.' > payload.json
-    # cat payload.json
+    if [  -z $deploy_mode ]; then
+        deploy_mode="Ansible"
+    else
+        success=false
+        echo "[ERROR] You can choose only 1 deployment type"
+    fi   
 
-    if [ -n $webapp ]; then
-        echo "No webapp info"
-    fi
-    
-    for curr_ip in `echo $ips | jq -r '.[]'`; do
-        echo ${curr_ip}
-        ssh -i ~/.ssh/$vm_rsc_name ec2-user@${curr_ip} "uname -a &&./test.sh"
+    if [ $success == "true" ]; then
+
+        echo "[INFO] Starting $deploy_mode deployment ..."
+        
+        for curr_ip in `echo $ips | jq -r '.[]'`; do
+            echo ${curr_ip}
+            ssh -i ~/.ssh/${vm_rsc_name} ec2-user@${curr_ip} "./deploy.sh $deploy_mode"
+        fi
+
+        echo "[INFO] Deployment done"
     done
-
-    echo "[INFO] Deployment done"
 
 
     $success
