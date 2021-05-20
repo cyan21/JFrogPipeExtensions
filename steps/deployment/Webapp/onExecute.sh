@@ -15,8 +15,8 @@ deployWebApp() {
     local repo=`echo $container | jq -r ".repo"`
     local tag=`echo $container | jq -r ".tag"`
 
-    local repo=`echo $web_app | jq -r ".path"`
-    local tag=`echo $web_app | jq -r ".technology"`
+    local path=`echo $web_app | jq -r ".path"`
+    local technology=`echo $web_app | jq -r ".technology"`
 
     local webhook_rsc_name=$(get_resource_name --type IncomingWebhook --operation IN)
     echo "Webhook name: $webhook_rsc_name"
@@ -36,23 +36,27 @@ deployWebApp() {
     echo "Dry run mode : $dry_run"
     echo "Comment : $comment"
 
-    echo "Webapp: $container"
-    echo "repo: $repo"
-    echo "tag: $tag"
+    echo "Webapp: $webapp"
+    echo "path: $path"
+    echo "technology: $path"
 
     echo "Container info: $container"
     echo "repo: $repo"
     echo "tag: $tag"
 
     echo "Ansible info : $ansible_deploy"
-    echo "Ansible role : $role"
-    echo "Ansible inventory : $inventory"
+    echo "role : $role"
+    echo "inventory : $inventory"
 
     echo "[INFO] Starting deployment ..."
     
     # echo "$res_wh_jenkins_payload" | jq '.' > payload.json
     # cat payload.json
 
+    if [ -n $webapp ]; then
+        echo "No webapp info"
+    fi
+    
     for curr_ip in `echo $ips | jq -r '.[]'`; do
         echo ${curr_ip}
         ssh -i ~/.ssh/$vm_rsc_name ec2-user@${curr_ip} "uname -a &&./test.sh"
