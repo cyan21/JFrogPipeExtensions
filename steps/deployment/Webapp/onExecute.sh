@@ -74,11 +74,10 @@ deployWebApp() {
         for curr_ip in `echo $ips | jq -r '.[]'`; do
             echo ${curr_ip}
             ssh -i ~/.ssh/${vm_rsc_name} ec2-user@${curr_ip} "./deploy.sh $deploy_mode"
-        fi
+        done
 
         echo "[INFO] Deployment done"
-    done
-
+    fi
 
     $success
 }
