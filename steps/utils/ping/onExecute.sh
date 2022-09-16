@@ -10,7 +10,13 @@ pingJPDs() {
     echo "wait: $sleepBetweenIteration"
 
     echo $mylist
-    echo "[INFO] Starting ping ..."
+    for jpd in `echo $mylist | jq '.[]'`; do 
+        echo $jpd
+        echo ${int_yann_platform_token_url}
+    done
+
+        echo "[INFO] Starting ping ..."
+    myurl=$(find_integration_variable yann_platform_token url)
     
     jf -v
 
