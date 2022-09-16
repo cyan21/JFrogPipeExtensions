@@ -10,7 +10,7 @@ pingJPDs() {
     echo "wait: $sleepBetweenIteration"
 
     echo $mylist
-    for jpd in `echo $mylist | jq '.[]'`; do 
+    for jpd in `echo $mylist | jq -r '.[]'`; do 
         echo $jpd
         url="int_${jpd}_url"
         echo $url
