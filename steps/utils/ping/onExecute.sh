@@ -12,11 +12,12 @@ pingJPDs() {
     echo $mylist
     for jpd in `echo $mylist | jq '.[]'`; do 
         echo $jpd
-        echo ${int_yann_platform_token_url}
+        url="int_${jpd}_url"
+        echo $url
+        echo ${!url}
     done
 
-        echo "[INFO] Starting ping ..."
-    myurl=$(find_integration_variable yann_platform_token url)
+    echo "[INFO] Starting ping ..."
     
     jf -v
 
