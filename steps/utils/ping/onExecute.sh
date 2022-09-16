@@ -18,7 +18,7 @@ pingJPDs() {
         echo ${!url}
         echo ${!token}
         let "i+=1"
-        configure_jfrog_cli --artifactory-url "${!url}/artifactory" --access-token "${token}" --server-name jpd_$i
+        configure_jfrog_cli --artifactory-url "${!url}/artifactory" --access-token "${!token}" --server-name jpd_$i
     done
 
     echo "[INFO] Starting ping ..."
