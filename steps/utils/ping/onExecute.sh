@@ -12,7 +12,7 @@ pingJPDs() {
 
     echo $mylist
     i=0
-    for jpd in `echo $mylist | jq -r '.[]'`; do 
+    for jpd in `echo $mylist | jq -r '.[].name'`; do 
         url="int_${jpd}_url"
         token="int_${jpd}_accessToken"
         # echo $url
