@@ -4,7 +4,8 @@ pingJPDs() {
 
     local iteration=$(find_step_configuration_value "iteration")
     local sleepBetweenIteration=$(find_step_configuration_value "sleepBetweenIteration")
-    local mylist=$(find_step_configuration_value "integrationList")
+    # local mylist=$(find_step_configuration_value "integrationList")
+    local mylist=$(find_step_configuration_value "integration")
 
     echo "iteration: $iteration"
     echo "wait: $sleepBetweenIteration"

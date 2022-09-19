@@ -1,8 +1,8 @@
 description: Ping JFrog Platforms
  
 configuration:
-  integrationList:
-    type: String[]
+  # integrationList:
+  #   type: String[]
   iteration:
     type: Int
   sleepBetweenIteration:
