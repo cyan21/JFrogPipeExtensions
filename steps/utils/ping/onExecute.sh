@@ -39,7 +39,7 @@ pingJPDs() {
                 echo "[INFO] Ping tentative $i / $iteration = OK"
                 ping_ok=1
                 success=1
-                add_run_variables mainHeartBeat="now"
+                # add_run_variables mainHeartBeat="now"
             else 
                 echo "[INFO] Ping tentative $i / $iteration = KO, will retry in  $sleepBetweenIteration second(s)..."
                 sleep $sleepBetweenIteration
