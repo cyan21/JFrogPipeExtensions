@@ -24,7 +24,7 @@ pingJPDs() {
         echo "[INFO] Configuration done"
         echo "[INFO] Pinging jpd_$i ..."
         i=1
-        while [[ !success && i <= $iteration ]]; do  
+        while [[ !success && $i <= $iteration ]]; do  
             jf rt ping --server-id jpd_$i
             if [[ $? -eq 0 ]]; then 
                 success=true
