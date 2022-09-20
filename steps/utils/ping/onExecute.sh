@@ -43,7 +43,8 @@ pingJPDs() {
             break
         fi
         ping_ok=0
-        let "i+=1"
+        # let "i+=1"
+        ((i++))
         echo "end round i : $i"
     done    
 
