@@ -21,11 +21,12 @@ pingJPDs() {
 
         echo "[INFO] Configuring CLI ..."
         configure_jfrog_cli --artifactory-url "${!url}/artifactory" --access-token "${!token}" --server-name jpd_$i
+        jf c use jpd_$i
         jf c s
-        echo "[INFO] Pinging jpd_$i ..."
+        echo "[INFO] Pinging jpd_${i} ..."
         cnt=1
         while [[ $ping_ok -eq 0 && $cnt -le $iteration ]]; do  
-            jf rt ping --server-id jpd_$i
+            jf rt ping #--server-id jpd_$i
             if [[ $? -eq 0 ]]; then 
                 echo "[INFO] Ping tentative $cnt / $iteration = OK"
                 ping_ok=1
