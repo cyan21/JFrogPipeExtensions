@@ -24,7 +24,7 @@ pingJPDs() {
         configure_jfrog_cli --artifactory-url "${!url}/artifactory" --access-token "${!token}" --server-name jpd_${cnt}
         echo "jpd_${cnt}"
         jf c s
-        let "cnt++"
+        let "cnt+=1"
     done
 
     
