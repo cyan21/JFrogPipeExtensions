@@ -39,6 +39,7 @@ pingJPDs() {
         else
             let "i+=1"
         fi
+        echo "i : $i"
     done    
 
     echo $success
