@@ -5,7 +5,7 @@ pingJPDs() {
     local iteration=$(find_step_configuration_value "iteration")
     local sleepBetweenIteration=$(find_step_configuration_value "sleepBetweenIteration")
     local mylist=$(find_step_configuration_value "integrations")
-    cnt=0
+    local cnt=0
     local retry=0
 
     echo "iteration: $iteration"
@@ -51,7 +51,7 @@ pingJPDs() {
         fi
         ping_ok=0
         retry=0
-        echo "end round rt : $rt"
+        # echo "end round rt : $rt"
     done    
 
     echo $success
