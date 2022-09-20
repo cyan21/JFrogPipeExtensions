@@ -41,7 +41,7 @@ pingJPDs() {
         fi
     done    
 
-    $success
+    echo $success
 }
  
 execute_command pingJPDs
