@@ -1,6 +1,6 @@
 
 pingJPDs() {
-    local success=false
+    local success=0
 
     local iteration=$(find_step_configuration_value "iteration")
     local sleepBetweenIteration=$(find_step_configuration_value "sleepBetweenIteration")
@@ -24,10 +24,10 @@ pingJPDs() {
         echo "[INFO] Configuration done"
         echo "[INFO] Pinging jpd_$i ..."
         i=1
-        while [[ !success && $i <= $iteration ]]; do  
+        while [[ $success -eq 0 & $i <= $iteration ]]; do  
             jf rt ping --server-id jpd_$i
             if [[ $? -eq 0 ]]; then 
-                success=true
+                success=1
             else 
                 echo "[INFO] Ping tentative $1 / $iteration = KO, will retry in  $sleepBetweenIteration second(s)..."
                 sleep $sleepBetweenIteration
@@ -35,7 +35,7 @@ pingJPDs() {
             fi
         done
         
-        if [[ !success ]]; then break; fi
+        if [[ $success -eq 0 ]]; then break; fi
 
     done    
 
