@@ -1,8 +1,8 @@
 
 pingJPDs() {
     local success=0
-    local cnt=0
-    local i=0
+    cnt=0
+    i=0
     local ping_ok=0
     local iteration=$(find_step_configuration_value "iteration")
     local sleepBetweenIteration=$(find_step_configuration_value "sleepBetweenIteration")
