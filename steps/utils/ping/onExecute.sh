@@ -21,7 +21,7 @@ pingJPDs() {
         echo "start round : cnt = $cnt"
 
         echo "[INFO] Configuring CLI ..."
-        configure_jfrog_cli --artifactory-url "${!url}/artifactory" --access-token "${!token}" --server-name jpd_$i
+        configure_jfrog_cli --artifactory-url "${!url}/artifactory" --access-token "${!token}" --server-name jpd_$cnt
         ((cnt++))
     done
 
