@@ -1,13 +1,13 @@
 
 pingJPDs() {
     local success=0
-    cnt=0
-    i=0
     local ping_ok=0
     local iteration=$(find_step_configuration_value "iteration")
     local sleepBetweenIteration=$(find_step_configuration_value "sleepBetweenIteration")
     local mylist=$(find_step_configuration_value "integrations")
-
+    cnt=0
+    i=0
+    
     echo "iteration: $iteration"
     echo "wait: $sleepBetweenIteration"
 
@@ -16,13 +16,15 @@ pingJPDs() {
     for jpd in `echo $mylist | jq -r '.[].name'`; do 
         url="int_${jpd}_url"
         token="int_${jpd}_accessToken"
-        # echo ${!url}
+        echo ${!url}
         # echo ${!token}
         echo "start round : cnt = $cnt"
 
         echo "[INFO] Configuring CLI ..."
-        configure_jfrog_cli --artifactory-url "${!url}/artifactory" --access-token "${!token}" --server-name jpd_$cnt
-        let "cnt+=1"
+        configure_jfrog_cli --artifactory-url "${!url}/artifactory" --access-token "${!token}" --server-name jpd_${cnt}
+        echo "jpd_${cnt}"
+
+        let "cnt++"
     done
 
     jf c s
