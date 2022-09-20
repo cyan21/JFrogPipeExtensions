@@ -10,33 +10,35 @@ pingJPDs() {
     echo "wait: $sleepBetweenIteration"
 
     # echo $mylist
-    i=0
+    i=1
     for jpd in `echo $mylist | jq -r '.[].name'`; do 
         url="int_${jpd}_url"
         token="int_${jpd}_accessToken"
         # echo ${!url}
         # echo ${!token}
-        let "i+=1"
+
         echo "[INFO] Configuring CLI ..."
         configure_jfrog_cli --artifactory-url "${!url}/artifactory" --access-token "${!token}" --server-name jpd_$i
-        jf -v
-
-        echo "[INFO] Configuration done"
+        # jf -v
         echo "[INFO] Pinging jpd_$i ..."
-        i=1
-        while [[ $success -eq 0 && $i -le $iteration ]]; do  
+        cnt=1
+        while [[ $success -eq 0 && $cnt -le $iteration ]]; do  
             jf rt ping --server-id jpd_$i
             if [[ $? -eq 0 ]]; then 
+                echo "[INFO] Ping tentative $cnt / $iteration = OK"
                 success=1
             else 
-                echo "[INFO] Ping tentative $1 / $iteration = KO, will retry in  $sleepBetweenIteration second(s)..."
+                echo "[INFO] Ping tentative $cnt / $iteration = KO, will retry in  $sleepBetweenIteration second(s)..."
                 sleep $sleepBetweenIteration
-                let "i+=1"
+                let "cnt+=1"
             fi
         done
         
-        if [[ $success -eq 0 ]]; then break; fi
-
+        if [[ $success -eq 0 ]]; then 
+            break
+        else
+            let "i+=1"
+        fi
     done    
 
     $success
