@@ -26,7 +26,7 @@ pingJPDs() {
         i=1
         while [[ !success && i <= $iteration ]]; do  
             jf rt ping --server-id jpd_$i
-            if [ $? -eq 0 ]; then 
+            if [[ $? -eq 0 ]]; then 
                 success=true
             else 
                 echo "[INFO] Ping tentative $1 / $iteration = KO, will retry in  $sleepBetweenIteration second(s)..."
