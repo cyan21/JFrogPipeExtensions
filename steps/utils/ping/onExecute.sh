@@ -7,7 +7,7 @@ pingJPDs() {
     local mylist=$(find_step_configuration_value "integrations")
     cnt=0
     i=0
-    
+
     echo "iteration: $iteration"
     echo "wait: $sleepBetweenIteration"
 
@@ -39,6 +39,7 @@ pingJPDs() {
                 echo "[INFO] Ping tentative $i / $iteration = OK"
                 ping_ok=1
                 success=1
+                add_run_variables mainHeartBeat="now"
             else 
                 echo "[INFO] Ping tentative $i / $iteration = KO, will retry in  $sleepBetweenIteration second(s)..."
                 sleep $sleepBetweenIteration
