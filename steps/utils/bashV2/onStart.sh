@@ -5,6 +5,7 @@ configureCustomStep() {
     local cli_plugin=$(find_step_configuration_value "cliPlugin")
     local intgs=$(find_step_configuration_value "integrations")
     local platform_intg=""
+    local found=false
 
     echo "cliPlugin: $cli_plugin"
     echo "integration: $intgs"
@@ -15,9 +16,9 @@ configureCustomStep() {
         echo ${token}
         echo ${!token}
 
-        if [[ ${!token} -ne "" ]]; then
+        if [[ $found != 'true' && -n ${!token} ]]; then
             platform_intg=$intg
-            break
+            found=true
         fi
     done
 
