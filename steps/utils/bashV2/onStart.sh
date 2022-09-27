@@ -11,7 +11,7 @@ configureCustomStep() {
 
     # look for the JFrog Platform Access Token integration
     for intg in `echo $intgs | jq -r '.[].name'`; do 
-        token="int_${platform_intg}_accessToken"
+        token="int_${intg}_accessToken"
         echo ${token}
         echo ${!token}
 
