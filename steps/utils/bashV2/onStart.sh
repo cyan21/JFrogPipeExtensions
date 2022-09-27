@@ -1,6 +1,5 @@
 
 configureCustomStep() {
-    local success=0
     local ping_ok=0
     local cli_plugin=$(find_step_configuration_value "cliPlugin")
     local intgs=$(find_step_configuration_value "integrations")
@@ -38,22 +37,24 @@ configureCustomStep() {
     jf c s
     jf rt ping
 
-    jf plugin install $cli_plugin
+    if [[ -n $cli_plugin ]]; then
+        jf plugin install $cli_plugin
 
-    if [[ $? -eq 1 ]]; then
-        echo "[ERROR] Could not install or find the $cli_plugin CLI plugin."
-        exit 1
-    fi 
+        if [[ $? -eq 1 ]]; then
+            echo "[ERROR] Could not install or find the $cli_plugin CLI plugin."
+            exit 1
+        fi 
 
-    # removed the plugin version if specified
-    jf $(echo $cli_plugin | cut -d"@" -f1) -v 
+        # removed the plugin version if specified
+        jf $(echo $cli_plugin | cut -d"@" -f1) -v 
 
-    if [[ $? -eq 1 ]]; then
-        echo "[ERROR] Could not execute the $cli_plugin CLI plugin."
-        exit 1
-    fi 
-    
-    return 1
+        if [[ $? -eq 1 ]]; then
+            echo "[ERROR] Could not execute the $cli_plugin CLI plugin."
+            exit 1
+        fi 
+    fi
+
+    return 0
 }
  
 execute_command configureCustomStep
