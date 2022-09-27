@@ -24,7 +24,7 @@ configureCustomStep() {
 
     echo  "platfom integration : $platform_intg"
 
-    if [[ $platform_intg -eq "" ]]; then
+    if [[ ! -n $platform_intg ]]; then
         echo "[ERROR] One JFrog Platform Access Token is required for this step."
         exit 1
     fi
