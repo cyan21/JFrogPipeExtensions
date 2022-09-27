@@ -45,7 +45,8 @@ configureCustomStep() {
         exit 1
     fi 
 
-    jf $cli_plugin -v 
+    # removed the plugin version if specified
+    jf $(echo $cli_plugin | cut -d"@" -f1) -v 
 
     if [[ $? -eq 1 ]]; then
         echo "[ERROR] Could not execute the $cli_plugin CLI plugin."
