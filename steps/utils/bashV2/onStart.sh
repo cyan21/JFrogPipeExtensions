@@ -12,15 +12,17 @@ configureCustomStep() {
     # look for the JFrog Platform Access Token integration
     for intg in `echo $intgs | jq -r '.[].name'`; do 
         token="int_${platform_intg}_accessToken"
+        echo ${token}
+        echo ${!token}
 
-        if [[ $token -ne "" ]]; then
+        if [[ ${!token} -ne "" ]]; then
             platform_intg=$intg
             break
         fi
     done
 
-    echo  $platform_intg
-    
+    echo  "platfom integration : $platform_intg"
+
     if [[ $platform_intg -eq "" ]]; then
         echo "[ERROR] One JFrog Platform Access Token is required for this step."
         exit 1
