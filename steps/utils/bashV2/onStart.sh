@@ -1,6 +1,5 @@
 
 configureCustomStep() {
-    local ping_ok=0
     local cli_plugin=$(find_step_configuration_value "cliPlugin")
     local intgs=$(find_step_configuration_value "integrations")
     local platform_intg=""
