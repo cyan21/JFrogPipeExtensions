@@ -2,7 +2,6 @@
 configureCustomStep() {
     local cli_plugin=$(find_step_configuration_value "cliPlugin")
     local intgs=$(find_step_configuration_value "integrations")
-    local platform_intg=""
     local found=false
 
     echo "cliPlugin: $cli_plugin"
@@ -14,27 +13,30 @@ configureCustomStep() {
         # echo ${token}
         # echo ${!token}
 
-        if [[ $found != 'true' && -n ${!token} ]]; then
-            platform_intg=$intg
-            found=true
-        fi
+        if [[ -n ${!token} ]]; then
+            echo "[INFO]platfom integration : $intg"
+            echo "[INFO] Configuring CLI ..."
+
+            local url="int_${intg}_url"
+            # echo ${!url}
+            # echo ${!token}
+            configure_jfrog_cli --artifactory-url "${!url}/artifactory" --access-token "${!token}" --server-name $intg
+            jf c s
+            jf rt ping
+            
+            if [[ $found != 'true' ]]; then
+                found=true
+            fi
+        fi 
     done
 
-    # echo  "platfom integration : $platform_intg"
 
-    if [[ ! -n $platform_intg ]]; then
+    if [[ ! -n $found ]]; then
         echo "[ERROR] One JFrog Platform Access Token is required for this step."
         exit 1
     fi
 
-    echo "[INFO] Configuring CLI ..."
-    local url="int_${platform_intg}_url"
-    local acc_token="int_${platform_intg}_accessToken"
-    # echo ${!url}
-    # echo ${!token}
-    configure_jfrog_cli --artifactory-url "${!url}/artifactory" --access-token "${!acc_token}" --server-name jpd
-    jf c s
-    jf rt ping
+
 
     if [[ -n $cli_plugin ]]; then
         jf plugin install $cli_plugin
